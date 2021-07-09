@@ -1,0 +1,233 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{multirow}
+\usepackage{mathtools}
+\pagestyle{plain}
+\begin{document}
+\title{NOI p 普及\textbf{模拟}赛}
+\author{}
+\date{\today}
+\maketitle
+\begin{table}[!htbp]
+	\centering
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		题目名称&qiu&sky&dog\\
+		\hline
+		题目类型&传统型&传统型&传统型\\
+		\hline
+		目录&qiu&sky&dog\\
+		\hline
+		可执行文件名&qiu&sky&dog\\
+		\hline
+		输入文件名&qiu.in&sky.in&dog.in\\
+		\hline
+		输出文件名&qiu.out&sky.out&dog.out\\
+		\hline
+		每个测试点时限&1.0s&2.0s&2.0s\\
+		\hline
+		内存限制&2GB&256MB&512MB\\
+		\hline
+	\end{tabular}
+\end{table}
+提交源程序文件名
+\begin{table}[!htbp]
+	\centering
+	\begin{tabular}{|ccc|c|c|c|}
+		\hline
+		对于&C++&语言&qiu.cpp&sky.cpp&dog.cpp\\
+		\hline
+		对于&C&语言&qiu.c&sky.c&dog.c\\
+		\hline
+	\end{tabular}
+\end{table}
+注意事项：
+\begin{enumerate}
+	\item 文件名（包括程序名和输入输出文件名）必须使用英文小写。
+	\item 结果比较方式为忽略行末空格、文末回车后的全文比较。
+	\item C/C++ 中函数 main() 的返回值类型必须是 int，值为 0。
+	\item 编译选项为-O2 -std=c++11。
+	\item 如果对题目有疑问（如样例出锅），可以找出题人。
+	\item \textbf{考试时间8:00至13:00}
+\end{enumerate}
+\clearpage
+
+
+\begin{center}
+	\large{(qiu)球}
+\end{center}
+\paragraph{题目描述}
+\paragraph{}小P在二维平面的原点$(0,0)$，他现在朝着$y$轴正方向。
+\paragraph{}他会以如下方式放$10^{10^{100}}$个球，第$i$个的重量为$i$：
+\paragraph{}在$i$步，他会放下第$i$个球；若他的右方第一个整点没有放球，那么向右转；向前走一单位长度。
+\paragraph{}前25步为：
+\begin{lstlisting}
+21 22 23 24 25
+20 7  8  9  10
+19 6  1  2  11
+18 5  4  3  12
+17 16 15 14 13
+\end{lstlisting}
+\paragraph{}小P回询问$q$次，所有横坐标在$[x_1,x_2]$中，纵坐标在$[y_1,y_2]$中的整点，上面球的重量的和，答案可能很大，对$2^{63}$取模。
+\paragraph{输入格式}
+\paragraph{}从\emph{qiu.in}中读入数据
+\begin{itemize}
+	\item 第一行一个整数$q$。
+	\item 接下来$q$行，每行四个整数$x_1,x_2,y_1,y_2$。
+\end{itemize}
+\paragraph{输出格式}
+\paragraph{}输出到\emph{qiu.out}中
+\begin{itemize}
+	\item 一行一个整数，你的答案。
+\end{itemize}
+\clearpage
+\paragraph{样例输入}
+\begin{lstlisting}
+1
+0 0 0 1
+\end{lstlisting}
+\paragraph{样例输出}
+\begin{lstlisting}
+9
+\end{lstlisting}
+\paragraph{样例解释}
+\paragraph{} $1+8=9$。
+\paragraph{数据规模}
+\paragraph{} 令$W$为满足以下条件的最小正整数：$0\le x_1,x_2,y_1,y_2\le W$。
+\paragraph{} 有：$W\le 10^{18},x_1\le x_2,y_1\le y_2,q\le 10^6$。
+\begin{itemize}
+	\item Subtask 1(1'): $W\le 10^4$。
+	\item Subtask 2(2'): $W\le 10^7$。
+	\item Subtask 3(3'): $W\le 10^9$。
+	\item Subtask 4(4'): $W\le 10^{12}$。
+	\item Subtask 5(5'): $q=1$。
+	\item Subtask 6(85'): $W\le 10^{18}$。
+\end{itemize}
+\clearpage
+
+
+\begin{center}
+	\large{(sky)星空}
+\end{center}
+\paragraph{题目背景}
+\paragraph{}2021元旦，小P注视着星空，眼睑通红
+\paragraph{}苦中带涩不是常态吗，我们得用笑容面对苦涩
+\paragraph{}使劲揉揉眼睛，我将不负过去，不畏将来
+\paragraph{题目描述}
+\paragraph{}星空中充斥着星辰，小P想将其一一配对，一个星辰用两个参数描述$a_i,b_i$分别表示其大小和闪烁程度。
+\paragraph{}两个星辰$i,j$可以配对，当且仅当$a_i\leq a_j$并且获得$b_j-b_i$的整体闪烁程度(因为小P眼睑通红看不清楚，所以会相互抵消)
+\paragraph{}一个星辰配对后无法再次配对，小P想知道对于$k\in[1,\lfloor \frac{n}{2}\rfloor]$求出至多配对$k$的最大闪烁程度和
+\paragraph{输入格式}
+\paragraph{}从\emph{sky.in}中读入数据
+\begin{itemize}
+	\item 一行一个整数$n$表示$n$颗星辰
+	\item 接下来$n$行，每行2个整数分别表示$a_i,b_i$
+\end{itemize}
+\paragraph{输出格式}
+\paragraph{}输出到\emph{sky.out}中
+\begin{itemize}
+	\item 共$\lfloor\frac{n}{2}\rfloor$行，第$i$行表示$k=i$的答案
+\end{itemize}
+\clearpage
+\paragraph{样例输入}
+\begin{lstlisting}
+6
+1 1
+4 5
+1 4
+1 9
+5 9
+8 10
+\end{lstlisting}
+\paragraph{样例输出}
+\begin{lstlisting}
+9
+14
+18
+\end{lstlisting}
+\paragraph{数据规模}
+\paragraph{} 对于所有数据，满足$n\leq 10^5,a_i\leq 10^9,b_i\leq 10^9$
+\begin{itemize}
+	\item Subtask 1(13'): $n\leq 100$。
+	\item Subtask 2(9'): $n\leq 1000$。
+	\item Subtask 3(7'): 所有$a_i$均相等。
+	\item Subtask 4(18'): $b_i\leq 1000$。
+	\item Subtask 5(13'): $n\le 5000$。
+	\item Subtask 6(40')
+\end{itemize}
+\clearpage
+
+\begin{center}
+	\large{(dog)嫖怪}
+\end{center}
+\paragraph{题目背景}
+\paragraph{}社会生产力的发展，使得人们的消费能力与需求与日俱增。
+\paragraph{}正因如此，小P搬运食品的速度已经远远无法跟上机房嫖怪们的需求了
+\paragraph{}若再不想些对策，小P那点可怜的劳动价值也要被血腥的嫖怪资本家们榨取殆尽了……
+\paragraph{题目描述}
+\paragraph{}小P用食品贮藏点的方式储存自己的食品，且一开始没有任何贮藏点。接下来会有$q$个操作。
+\paragraph{}$type=2$：对抗操作。
+\paragraph{}为了应对可能发生的事件，小P会模拟自己与嫖怪们的对抗过程。
+\paragraph{}具体地，对抗从$0s$时刻开始，在时间段$(ts,ts+1s],t\in N$间，小P会在$ts+0.5s$时选择一个贮藏点，向其中投放$1$单位食品。嫖怪们则会在$ts+1s$时选择一个贮藏点，至多取出$2$单位的食品。
+\paragraph{}如果一个食品贮藏点贮藏的食品单位数$\leq 0$，嫖怪们就会认为它不再具有利用价值并摧毁它。若被摧毁的食品贮藏点达到了$K$个，小P就不得不修建新储藏点了。
+\paragraph{}但是小P很懒惰，因此他希望被摧毁点数达到$K$个的时刻尽量大。小P认为嫖怪们也很懒惰，因此小P认为他们希望这个时刻尽量小。
+\paragraph{}对于这个操作，你需要输出对抗结束的时刻$T$，这显然是个整数。
+\paragraph{}这个操作不具有后效性。
+\paragraph{}$type=1$：修改操作。
+\paragraph{}小P会将储存食品数为$X$的贮藏点的数目改为$Y$。
+\paragraph{}这个操作具有后效性。
+\paragraph{输入格式}
+\paragraph{}从\emph{dog.in}中读入数据
+\begin{itemize}
+	\item 一行一个整数$q$表示$q$次询问
+	\item 接下来$q$行，每行第一个整数$type$，表示操作类型。
+	\item 若type=1，则接下来两个正整数$X$，$Y$，表示小P的修改，意义同题目描述。
+	\item 若type=2，则接下来一个正整数$K$，表示小P的模拟对抗，意义同题目描述。
+\end{itemize}
+\paragraph{输出格式}
+\paragraph{}输出到\emph{dog.out}中
+\begin{itemize}
+	\item 对于每个type=2的操作，输出一个整数$T$，表示小P模拟对抗结束的时刻。
+	\item 注意：每个type=2的操作是小P的模拟对抗，不具有后效性。
+\end{itemize}
+\clearpage
+\paragraph{样例1输入}
+\begin{lstlisting}
+8
+1 1 1
+2 1
+1 2 3
+2 3
+1 2 2
+2 3
+1 3 3
+2 4
+\end{lstlisting}
+\paragraph{样例1输出}
+\begin{lstlisting}
+1
+4
+5
+6
+\end{lstlisting}
+\paragraph{样例1解释}
+\paragraph{}下面用$(X,Y)$表示一个据点。其中$X$为编号，$Y$为初始储存食品数，操作序列中只有编号，且按时间排序。
+\paragraph{}对于第二个$type=2$的操作。现有据点为$(1,1),(2,2),(3,2),(4,2)$，
+\paragraph{}那么小P的操作序列为$4,3,3,1$，嫖怪的操作序列则为$2,3,3,1$。这是合乎题意的，且对双方而言都最优。
+\paragraph{样例2}
+\paragraph{}见选手文件夹下\emph{/2.in}与\emph{/2.out}。他满足子任务$2$的限制。
+\paragraph{样例3}
+\paragraph{}见选手文件夹下\emph{/3.in}与\emph{/3.out}。他满足子任务$3$的限制。
+\paragraph{样例4}
+\paragraph{}见选手文件夹下\emph{/4.in}与\emph{/4.out}。他满足子任务$4$的限制。
+\paragraph{数据规模}
+\paragraph{} 对于所有数据，满足$q\leq 10^{6},type\in{1,2}, X,Y\leq 10^{6}, K\leq$ 当前贮藏点的总数
+\begin{itemize}
+	\item Subtask 1(10'): $q\leq 5, X,Y\leq 3$。
+	\item Subtask 2(30'): 所有$X$均相等。
+	\item Subtask 3(10'): $q\leq 1000, X\leq 1000, Y\leq 10^{6}$。
+	\item Subtask 4(50'): 无特殊限制。
+\end{itemize}
+\end{document}

@@ -1,0 +1,338 @@
+\documentclass{beamer}
+
+\usepackage{xeCJK}
+
+\setCJKmainfont[BoldFont = {黑体}]{宋体}
+\setlength{\parindent}{22pt}
+
+\usetheme{CambridgeUS}
+\usecolortheme{dolphin}
+\usefonttheme{serif}
+
+\title{Day2-题解}
+\author{}
+\institute{}
+
+\begin{document}
+
+\begin{frame}
+	\maketitle
+\end{frame}
+
+\section{T1}
+\begin{frame}{遗迹探索}
+
+	\par 题意：给$N$个串，问最多能拼成多少个"SAD"子串；
+
+	\par $N \leq 200000$
+
+\end{frame}
+
+\begin{frame}{测试点1-4}
+
+	\par 测试点1-2： 暴力；
+
+	\pause
+
+	\par 测试点3-4：我也不大清楚有什么做法，感觉能做就放在了这里；
+
+\end{frame}
+
+\begin{frame}{测试点5-6}
+
+	\par 拼接形成的"SAD"只有可能是"S + AD"或"SA + D"；
+
+	\pause
+
+	\par 把串分成9类：
+
+	\par 后缀是"SA"，"S"，或与"SAD"无关；
+
+	\par 前缀是"AD"，"D"，或与"SAD"无关；
+
+	\pause
+
+	\par 那么"S + AD"的数量，就是min(后缀是"S"的串的数量，前缀是"AD"的串的数量)；
+
+	\par 那么"SA + D"的数量，就是min(后缀是"SA"的串的数量，前缀是"D"的串的数量)；
+
+	\pause
+
+	\par 发现有点问题？
+
+\end{frame}
+
+\begin{frame}{测试点5-6}
+
+	\par 有些情况下串不能"物尽其用"；
+
+	\pause
+
+	\par 1："S"后缀与"AD"前缀数量相等，且属于完全相同的一些串；
+
+	\pause
+
+	\par 这样"S + AD"就要少1；
+
+	\par 对"SA + D"同理；
+
+	\pause
+
+	\par 2：用到的每个串的前缀和后缀都要使用；
+
+	\pause
+
+	\par 这样一定会浪费开头的串和结尾的串，答案会减少1；
+
+	\pause
+
+	\par 处理了这两种情况后就可以通过这一部分；
+	
+\end{frame}
+
+\begin{frame}{测试点7-8}
+
+	\par 一个来自一位同学的神仙做法：
+
+	\pause
+
+	\par 开三个点，记末尾状态分别为""，"S"，"SA"；
+
+	\par 把每个串看做一条边，能形成"SAD"的路径边权设为1；
+
+	\pause
+
+	\par 跑有正环的最大费用可行流；
+
+	\pause
+
+	\par 但这样似乎无法处理自环的情况；
+
+\end{frame}
+
+\begin{frame}{测试点9-10}
+
+	\par 回归测试点5-6的想法；
+
+	\par 只要处理"A"的情况；
+
+	\pause
+
+	\par 只有链接在"S"之后的"A"是有用的；
+
+	\pause
+
+	\par 直接枚举这样的"A"有多少个；
+
+	\par 然后套用之前的做法就行了；
+
+	\pause
+
+	\par 注意此时一定可以避免特殊情况1。
+
+\end{frame}
+
+\section{T2}
+\begin{frame}{基因进化}
+
+	\par 一个数列，有一些前缀可以翻转，按顺序翻转一些前缀使字典序最小；
+
+	\par $N \leq 300000$
+
+\end{frame}
+
+\begin{frame}{测试点1-2}
+
+	\par 暴力枚举每个位置翻或不翻；
+
+	\pause
+
+	\par $O(2^N)$
+
+\end{frame}
+
+\begin{frame}{测试点3-4}
+
+	\par 我们现在想求出，对于前$i$个数，所能产生的最小的字典序是多少；
+
+	\pause
+
+	\par 我们发现，无论后面的怎么翻，之前的一定是越小越好；
+
+	\pause
+
+	\par 对于相邻两个能翻的位置$i,j$，(i < j)。
+
+	\pause
+
+	\par 前$j$个的最小值要么是前$i$个的最小值接上$i$到$j$这一段；
+
+	\par 要么是$i$到$j$的翻转接上前$i$个的最小值（同时在i和j翻转）；
+
+	\pause
+
+	\par 每次翻转前判断哪种方式更优，$O(N)$暴力比较；
+\end{frame}
+
+\begin{frame}{测试点5-6}
+
+	\par 考虑用哈希+二分的方式判断优劣程度；
+
+	\par 我们现在要维护这些操作：
+
+	\pause
+
+	\par 尾部插入，头部插入，维护一段的哈希值；
+
+	\pause
+
+	\par 一个朴素的实现就是线段树；
+
+	\pause
+
+	\par $O(N\ log^2\ N)$
+
+\end{frame}
+
+\begin{frame}{测试点7-10}
+
+	\par 其实根本不需要用数据结构维护；
+
+	\pause
+
+	\par 直接用两个队列，记录头插入和尾插入的数；
+
+	\pause
+
+	\par 维护队列的前缀哈希值和后缀哈希值；
+
+	\par 用这些一定可以拼出一段的哈希值；
+
+	\pause
+
+	\par $O(N\ \log N)$
+
+\end{frame}
+
+\section{T3}
+\begin{frame}{城市破坏}
+
+	\par 给定一张$N$个点，$M$条边的无向图，$K$个询问，求删掉边$C$条边后图是否连通；
+
+	\par $N,M,K \leq 10^5$
+
+\end{frame}
+
+\begin{frame}{测试点1-5}
+
+	\par 测试点1-4：$N,M,K \leq 2000$直接暴力判断删边后图的连通性；
+
+	\pause
+
+	\par 测试点5：删边之后图一定不连通；
+
+\end{frame}
+
+\begin{frame}{测试点6-8}
+
+	\par 只删一条边；
+
+	\pause
+
+	\par 只有删到桥时图不连通；
+
+\end{frame}
+
+\begin{frame}{测试点9-11}
+
+	\par $M \leq N + 20$
+
+	\pause
+
+	\par 先随便取出一棵原图的生成树；
+
+	\par 如果删的边都不在树上一定连通；
+
+	\pause
+
+	\par 否则最多把生成树分成$C + 1$个部分；
+
+	\par 用剩下的$M - (N - 1)$判断这些部分是否能连通；
+
+	\pause
+
+	\par 如何判断一个点属于哪一部分？
+
+	\pause
+
+	\par 对于每一条在树上的被割掉的边，我们标记下这条边两侧所对应的点；
+
+	\par 那么一个点一定和被标记且距离它最近的点同属一个部分；
+
+	\pause
+
+	\par 而两点间的距离可以$O(1)$求；
+
+	\par 所以对于每个询问，复杂度是$O(C * (M - (N - 1)))$的；
+
+\end{frame}
+
+\begin{frame}{测试点12-20}
+
+	\par 删边判断连通性的问题有一个比较巧妙的思路；
+
+	\pause
+
+	\par 就你给每条边定义一个权值，如果删的边恰好使图不连通了，他们的异或是0；
+
+	\par 这里的恰好指的是一旦删的边少了任意一条都不能使图不连通；
+
+	\pause
+
+	\par 首先如果割的边恰好使一个点不连通了，异或应该是0，所以一个点的所有出边的异或和应该是0；
+
+	\pause
+
+	\par 然后我们发现，对于任意一个子集，如果恰好与外部的点不连通了，且子集中每个点出边异或和都是0，那么那些被割掉的边异或和也为0；
+
+	\pause
+
+	\par 证明：考虑把子集内每个点的所有出边都异或到一起，那么它们的异或值为0；
+
+	\par 然后对于子集内部的边，它们会被异或两次，所以它们的异或值为0；
+
+	\par 所以所有从子集中连出去的边的异或值为0；
+
+\end{frame}
+
+\begin{frame}{测试点12-20}
+
+	\par 现在问题是如何构造边的权值是它满足一个点的所有出边的异或和为0；
+
+	\pause
+
+	\par 其实可以存在一个点它的异或值不为0，因为不连通后总有一个部分所有点的异或值为0；
+
+	\pause
+
+	\par 还是考虑随机选取一棵生成树（1号点为根）；
+
+	\par 对于非树边，我们随机一个$1$到$2^{63}-1$的权值；
+
+	\par 对于树边，我们可以给定一个权值，使它向下连向的节点的异或和为0；
+
+	\pause
+
+	\par 这样的话，除了1号点，每个点的所有出边异或和都为0；
+
+	\pause
+
+	\par 如果当前删的边不能恰好使图不连通，那么异或值一定是一些随机边权异或起来；
+
+	\par 随机边权异或起来得到0的概率是$frac{1}{2^{63}}$；
+
+	\par 所以出现偏差的概率几乎是0；
+
+\end{frame}
+
+\end{document}

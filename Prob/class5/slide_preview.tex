@@ -1,0 +1,55 @@
+\documentclass[9pt]{beamer}
+\usepackage{xeCJK}
+\usepackage[space,space,hyperref]{ctex}
+\setsansfont{Ubuntu Mono}
+\usefonttheme[onlymath]{serif}
+\setCJKmonofont{AR PL UKai CN}
+\usetheme{metropolis}
+\title{水题选讲}
+\date{Nov 2,2020}
+\author{雅礼中学高二信息组}
+\begin{document}
+
+  \maketitle
+  \begin{frame}{某题}
+	给定一棵大小为$n$的有标号无根树和一参数$k$。
+	
+  有几棵同样大小为$n$的树的边集的与原树边集的交集大小不小于$k$。
+
+	经典范围：$n\le 100$
+
+	加强范围：$n\le 5000$
+  \end{frame}
+
+  \begin{frame}{CF Gym 102576 D}
+    \onslide<1-> 题意：给出一个圆的 $n$ 条圆弧，求一个最大的子集满足子集中的圆弧两两有交。$1\le n \le 3000$ 。
+  \end{frame}
+
+  \begin{frame}{CF1368G}
+    \par 在 $n\times m$ 的方格里，用 $1\times2$ 的多米诺骨牌\textbf{恰好}填满。
+    \par 拿走其中任意一个骨牌，然后可以让任意骨牌以平行于原来的方向移动，但不能转弯。要求一个骨牌最终的位置与初始位置至少有一个格子重合。
+    \par 试求出所有空格位置无序二元组的数量。
+    \par $n\times m\le200000$ 
+  \end{frame}
+
+  \begin{frame}{CF Gym 100959 K}
+    \par 给定一个二维平面上的 $n$ 个黑点，剩下的均为白点，问你最多染多少个点变为黑点可以形成一个正方形网格。一个 $K\times K$ 的正方形网格指，有实数 $a,b,c,d$ 使得 $\forall i,j\in[0,K)\cap Z$ 有 $(a+ci+dj,b+di-cj)$ 为黑点。 
+    \par $n\leq 10^5$，二维平面坐标在 $int$ 范围内。
+  \end{frame}
+
+  \begin{frame}{UOJ312 梦中的题面}
+    \par 题目大意：给定$m,b,c$，求出满足以下条件的$m$元组$(x_1,x_2,...,x_m)$的个数
+    \par $x_i \in Z$，$0\leqslant x_i \leqslant b_{i}-c$，$x_1+x_2+...+x_m \leqslant n$
+    \par 数据范围：$c\in{0,1}$，$0\leqslant n < b^{m+1}$，$2 \leqslant b \leqslant 50$，$1 \leqslant m \leqslant 50$
+  \end{frame}
+  
+  \begin{frame}
+		\frametitle{CF1208G Polygons}
+		\par 给定$n,k$
+		\par 你需要构造$k$个有相同外接圆的多边形，使得边数在$3\sim n$间且边数两两不同
+		\par 你可以任意旋转它们，求它们与这个外接圆的最少交点数
+		\par $k\le n-2,n\le 10^6$
+	\end{frame}
+  \section{Thanks}
+
+\end{document}

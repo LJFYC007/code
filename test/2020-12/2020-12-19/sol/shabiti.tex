@@ -1,0 +1,62 @@
+\documentclass{noiassignment_modified}
+\usepackage[bookmarks=false, colorlinks, linkcolor=black, anchorcolor=black, citecolor=black, urlcolor=black]{hyperref}
+\theoremstyle{theorem}
+\newtheorem{ex}{例题}
+\numberwithin{equation}{section}
+\usepackage{tikz}
+
+\renewcommand\familydefault{cmr}
+\normalfont
+\SetSymbolFont{operators}   {normal}{OT1}{cmr} {m}{n}
+\SetSymbolFont{letters}     {normal}{OML}{cmm} {m}{it}
+\SetSymbolFont{symbols}     {normal}{OMS}{cmsy}{m}{n}
+\SetSymbolFont{largesymbols}{normal}{OMX}{cmex}{m}{n}
+\SetSymbolFont{operators}   {bold}  {OT1}{cmr} {bx}{n}
+\SetSymbolFont{letters}     {bold}  {OML}{cmm} {b}{it}
+\SetSymbolFont{symbols}     {bold}  {OMS}{cmsy}{b}{n}
+\SetSymbolFont{largesymbols}{bold}  {OMX}{cmex}{m}{n}
+\SetMathAlphabet{\mathbf}{normal}{OT1}{cmr}{bx}{n}
+\SetMathAlphabet{\mathsf}{normal}{OT1}{cmss}{m}{n}
+\SetMathAlphabet{\mathit}{normal}{OT1}{cmr}{m}{it}
+\SetMathAlphabet{\mathtt}{normal}{OT1}{cmtt}{m}{n}
+\SetMathAlphabet{\mathbf}{bold}  {OT1}{cmr}{bx}{n}
+\SetMathAlphabet{\mathsf}{bold}  {OT1}{cmss}{bx}{n}
+\SetMathAlphabet{\mathit}{bold}  {OT1}{cmr}{bx}{it}
+\SetMathAlphabet{\mathtt}{bold}  {OT1}{cmtt}{m}{n}
+
+
+\begin{document}
+
+%% 解题报告开始
+
+\title{《经典傻逼题》解题报告}
+\author{matthew99}
+
+\maketitle
+\section{试题大意}
+给定一张$n$个点的无向图，$m$次加边，边权小于$2 ^ l$，求最大异或割。
+
+一个割的定义是存在图的某个点集，割中所有边就是所有恰好只有一个端点在这个点集中的边。
+\section{数据范围}
+对于$20\%$的数据，$n \le 20$，$m \le 50$，$l < 32$，对于另外$30\%$的数据每个点的度数总是不超过1，对于另外$20\%$的数据，$n \le 100$，$m \le 250$，$l < 300$。 对于所有数据$n \le 500$，$m \le 1000$，$l < 1000$。
+\section{得分估计}
+估计几乎所有人都可以获得20分，大部分人可以获得30到50分，$40\%$的人可以获得70分，$10\%$的人可以获得满分或者接近满分的分数。
+\section{算法一}
+对于前$20\%$的数据直接暴力枚举所有点集即可。时间复杂度$O(2 ^ nm)$。
+
+注意使用unsigned int。
+\section{算法二}
+如果度数不超过1，那么所有边集都是割，所以只要维护边的基即可，每次很容易在$O(l ^ 2)$的时间内解决，总时间复杂度为$O(ml ^ 2)$，如果压位可以将常数降为$\frac{1}{32}$。
+\section{算法三}
+考虑一般的情况，注意到如果我们把一条边的边权异或到两个端点上，那么对于一个点集的异或和，只有恰好一个端点在这个点集中的边被异或了一次，其他的边都被异或了零次或两次，也就相当于没有异或，因此我们将问题转化成了：修改点的点权，维护最大异或和。
+
+直接做的话，复杂度是$O(mnl ^ 2)$，加上压位可以通过$n \le 100$，$m \le 250$，$l < 300$的数据。
+\section{算法四}
+考虑维护阶梯矩阵以及每一行是由哪些向量异或过来的，修改一个向量的时候，找到所有由这个向量和其他向量异或过来的行，找到其中第一个1 的个数最靠后的，如果有零行那么就找到一个零行，将所有其他的由这个向量和其他向量异或过来的行都异或上这一行，那么这些行的来源中不再有这个向量。
+
+接下来我们只需要将某一行异或上一个向量，那么我们对这一个向量重新进行一次消元即可。
+
+这样总时间复杂度降为$O(nm(l + n))$，加上压位可以通过所有测试点。
+%% 解题报告结束
+
+\end{document}

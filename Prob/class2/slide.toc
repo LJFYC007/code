@@ -1,0 +1,4 @@
+\beamer@sectionintoc {1}{一些DP技巧}{3}{0}{1}
+\beamer@sectionintoc {2}{插头DP}{58}{0}{2}
+\beamer@sectionintoc {3}{动态DP}{68}{0}{3}
+\beamer@sectionintoc {4}{Thanks}{75}{0}{4}

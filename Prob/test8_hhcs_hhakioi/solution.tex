@@ -1,0 +1,71 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{multirow}
+\usepackage{mathtools}
+\pagestyle{plain}
+\begin{document}
+\title{solution}
+\author{}
+\date{\today}
+\maketitle
+
+\clearpage
+
+\begin{center}
+	\large{Easiest}
+\end{center}
+\paragraph{}本次考试签到题，改编（简化）自AGC036F
+\paragraph{}考虑$l_i=0$为小学奥数题，就不说明过程，结论是（满足$r_i\le r_{i+1}$）
+$$
+\prod_{i} r_i-i+1
+$$
+\paragraph{}于是考虑只有$l_{n-1}\not=0$的情况，发现容斥即可
+\paragraph{}推广一下，可以$O(2^nn\log n)$容斥解决，即$15~\rm pts$部分分
+\paragraph{}考虑题目里的条件，即不存在$i<j$使得$l_i>0,[l_i,r_i]\subset [0,l_j-1]$
+\paragraph{}所以可以根据$\begin{cases}r_i&l_i=0\\l_i-1&l_i\not=0\end{cases}$排序
+\paragraph{}然后枚举一共选在$[0,l_i)$的位置数，从前到后DP，$f_{i,j}$表示前$i$个选在$[0,l_p)$的位置数为$p$，发现枚举是否在$[0,l_{i+1})$中后就可以直接转移到第$i+1$行了，转移系数参考$l_i=0$的情况，容斥系数为$(-1)^k$
+
+\clearpage
+
+\begin{center}
+	\large{Medium}
+\end{center}
+
+\paragraph{}一个显然的思路：先找到第$n+1$行的各个基因型概率，然后处理询问
+\paragraph{}定义$p(u)$为$u$产生\underline{A}的配子的概率，概率用三元组$P(u)=(AA,Aa,aa)$表示，定义$U_i/V_i$表示第$i$个确定\underline{aa}的人/需要询问的人，先考虑以下性质：
+
+\begin{itemize}
+	\item 若$x,y$的$P$相同，则对于他们后代$z$的有为$P(z)=(p^2(x),1-p^2(x)-(1-p(x))^2,(1-p(x))^2)$\\
+	      证明： 易证
+	\item 若$x,y$的$P$相同，则他们后代$z,w$的后代$u$的$P$与$z,w$相同\\
+	      证明： 容易发现$p(x)=p(y)=p(z)=p(w)=p(u)$
+\end{itemize}
+
+\paragraph{}若$m=1$，我们可以用上面两个性质算出$U_1$的每个祖先的$P$
+
+\paragraph{}具体地，我们可以算出整体的概率，然后枚举祖先的基因型，用相同方法算概率
+
+\paragraph{}对于每个$U_1$的祖先$u$（包括$U_1$），及其配偶$v$，我们可以得到$P(u),P(v)$
+
+\paragraph{}然后我们可以把第$n+1$层划分为$O(n)$段，每段的$P$相同
+
+\paragraph{}对于询问可以枚举父母的$p$值，这可以直接用第$n+1$代的$P$计算，于是你获得了$3$分的好成绩
+
+\paragraph{}若$m\not=1$，后半部分照旧
+
+\paragraph{}考虑$0\sim n+1$层中，若某一对不存在在$U$里的，那么他们$P$相同，可以认为是一个人
+
+\paragraph{}考虑到不存在$A_i,A_j$使得它们为祖先关系，那么他们及祖先组成一棵树，可以处理出他们的虚树，最多$2m-1$个点
+
+\paragraph{}可以枚举另外$m-1$个点性状，可以$O(3^m\mathrm{poly}(n))$，至此你获得了$15$分
+
+\paragraph{}发现可以DP，于是复杂度变为$O(\mathrm{poly}(m)~\mathrm{poly}(n))$，可以通过此题
+
+\clearpage
+
+\begin{center}
+	\large{Hardest}
+\end{center}
+\end{document}

@@ -1,0 +1,91 @@
+\documentclass[9pt]{beamer}
+\usepackage{xeCJK}
+\usepackage[space,space,hyperref]{ctex}
+\setsansfont{Ubuntu Mono}
+\setCJKmonofont{AR PL UKai CN}
+\usetheme{metropolis}
+\title{博弈论}
+\date{\today}
+\author{ljfcnyali}
+\begin{document}
+  \maketitle
+
+  \section{纳什均衡}
+
+  \begin{frame}{纳什均衡}
+    \onslide<1-> 考虑一组双人博弈游戏，给定矩阵 $A_{i,j},B_{i,j}$ 分别表示 Alice 选择 $i$ 而 Bob 选择 $j$ 时的收益，同时保证总收益为0。
+  
+    \onslide<2-> 而纳什均衡点指在 Alice 决定策略的情况下， Bob 不可以通过改变策略增加自己的期望收益。
+
+    \onslide<3-> 即假设一组向量 $x,y$ 分别表示 Alice 和 Bob 的决策概率，那么对于任意 $u,v$ 有 $u^TAy\leq x^TAy,x^TBv\leq x^TBy$。
+  \end{frame}
+
+  \begin{frame}{纳什均衡}
+    \onslide<1-> 给出一个例子：Alice 与 Bob 分别选取一个硬币的正反面，我们规定：Alice正Bob正收益$a$, Alice反Bob反收益$b$，Alice反Bob正收益$-c$，否则收益$-d$，求解纳什均衡策略。
+  
+    \onslide<2-> 考虑设 Alice 有 $x$ 概率选择正， $1-x$ 概率选择反，由定义有 Bob 无论怎么选都不会对 Alice 期望收益造成影响，故：
+    
+    \onslide<3-> $$ xa-(1-x)c=-xd+(1-x)b $$
+
+    \onslide<4-> 求解出 $x$ 即可。
+
+    \onslide<5-> 稍微解释一下，纳什均衡不是说要让我的收益最大化，而是说期望意义下收益最大。即双方的决策概率都是互相已知的。
+  \end{frame}
+
+  \begin{frame}{纳什均衡}
+    \onslide<1-> 通常来说，我们使用线性规划来求解纳什均衡点。
+
+    \onslide<2-> 由前文可知，我们只需要设 $x_i$ 表示 Alice 选择 $i$ 的概率，$ans$表示最优策略下的期望收益，最大化 $ans$，限制如下：
+    
+    \onslide<3-> 
+    $$
+    \begin{aligned}
+      \sum x_i &\leq 1\\
+      \sum_j v_{i,j}x_i &\geq ans \\
+      x_i&\geq 0
+    \end{aligned}
+    $$
+
+    \onslide<4-> 其它情况下特殊考虑即可，同时注意在最终答案下， $\sum_j v_{i,j}x_i=ans$ ，容易证明。
+
+    \onslide<5-> 当然还有很多其他方法求解纳什均衡，但是因为讲课人水平有限，故不再探究。
+  \end{frame}
+  
+  \section{杂题选讲}
+
+  \begin{frame}{来源不明的签到题}
+    \par 给定一个字符串 $s$，Alice 和 Bob 分别同时独立选择一个后缀，并且计算两个后缀的最长公共前缀。Alice 希望它尽量大，Bob希望尽量小，询问期望长度。
+    \par $|s| \leq 10^5$
+  \end{frame}
+ 
+  \begin{frame}{来源不明的签到题}
+    \onslide <1-> 很明显，来一手SA后问题转化为了选择的两个后缀 $[l,r]$ 的 $min_{i=l}^r\{height_i\}$ 的期望。
+
+    \onslide <2-> 考虑按照最小值分治，假设当前只处理后缀在区间 $[l,r]$ 内的期望，$val_l$ 表示左区间答案，$val_r$ 表示右区间答案， $Min$ 表示 $height$ 最小值，$x$ 表示 Alice 选择左区间的概率，列出方程有：
+
+    \onslide <3-> $$ x\times val_l + (1-x) \times Min = (1-x) \times val_r + x \times Min$$
+
+    \onslide <4-> 求解出 $x$ 后再算出等式取值，然后就做完了。
+  \end{frame}
+  
+  \begin{frame}{CF1091H}
+    \par 有一个 $n$ 行无限列的棋盘，每一行都有三个棋子，从左到右依次为蓝白红，位置为 $b_i,w_i,r_i$ 。现在有 Alice 和 Bob 依次操作，每次 Alice 可以将某一行的蓝或蓝白棋同时右移 $k$ ，而 Bob 可以将某一行的红或白红棋同时左移 $k$。
+    \par 需要满足 $k$ 是质数或为两个质数的乘积，且每一行棋子相对顺序不变，求先手是否必胜。
+    \par $n \le 10^5, -10^5\leq b_i,w_i,r_i\leq 10^5$
+
+    \onslide<2-> Hint:这题是不平等博弈吗？
+  \end{frame}
+  
+  \begin{frame}{CF1091H}
+    \onslide<1-> 首先考虑一行的情况，因为列数无穷，所以只需要考虑棋子的相对顺序。
+
+    \onslide<2-> 而我们发现， Alice 的操作本质上是将两个相对位置中缩小其中一个， Bob 同理，故两人操作本质相同，该题为平等博弈。
+
+    \onslide<3-> 可以抽象为每一行有两堆石子，轮流操作，每次可以将一堆删去 $k$。而求一堆石子的 sg 函数可以通过 $bitset$ 简单的计算，具体来说，维护每个 $sg_i$ 可以由哪些石子转移即可。
+
+    \onslide<4-> 最后各行因为互不干扰，异或判断答案即可。
+  \end{frame}
+
+  \section{Thanks}
+
+\end{document}

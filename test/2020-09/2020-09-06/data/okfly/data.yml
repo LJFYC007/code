@@ -1,0 +1,21 @@
+subtasks:
+ - score: 10
+   type: min
+   cases: ['1-1', '1-2']
+ - score: 10
+   type: min
+   cases: ['2-1', '2-2']
+ - score: 20
+   type: min
+   cases: ['3-1', '3-2']
+ - score: 20
+   type: min
+   cases: ['4-1', '4-2']
+ - score: 20
+   type: min
+   cases: ['5-1', '5-2']
+ - score: 20
+   type: min
+   cases: ['6-1', '6-2']
+inputFile: 'okfly#.in'
+outputFile: 'okfly#.out'

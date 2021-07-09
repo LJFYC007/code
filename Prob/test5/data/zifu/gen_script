@@ -1,0 +1,41 @@
+./gen 100 > 1.in
+./zifu < 1.in > 1.out
+./gen 100 > 2.in
+./zifu < 2.in > 2.out
+./gen 100 > 3.in
+./zifu < 3.in > 3.out
+./gen 100 > 4.in
+./zifu < 4.in > 4.out
+./gen 100 > 5.in
+./zifu < 5.in > 5.out
+./gen 100 > 6.in
+./zifu < 6.in > 6.out
+./gen 10000 > 7.in
+./zifu < 7.in > 7.out
+./gen 10000 > 8.in
+./zifu < 8.in > 8.out
+./gen 10000 > 9.in
+./zifu < 9.in > 9.out
+./gen 10000 > 10.in
+./zifu < 10.in > 10.out
+./gen 10000 > 11.in
+./zifu < 11.in > 11.out
+./gen 10000 > 12.in
+./zifu < 12.in > 12.out
+./gen 10000 > 13.in
+./zifu < 13.in > 13.out
+./gen 10000 > 14.in
+./zifu < 14.in > 14.out
+./gen 10000 > 15.in
+./zifu < 15.in > 15.out
+./gen 10000 > 16.in
+./zifu < 16.in > 16.out
+./gen 10000 > 17.in
+./zifu < 17.in > 17.out
+./gen 10000 > 18.in
+./zifu < 18.in > 18.out
+./gen 10000 > 19.in
+./zifu < 19.in > 19.out
+./gen 10000 > 20.in
+./zifu < 20.in > 20.out
+

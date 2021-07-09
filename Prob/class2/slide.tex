@@ -1,0 +1,199 @@
+\documentclass[9pt]{beamer}
+\usepackage{xeCJK}
+\setsansfont{Monaco}
+\setCJKmonofont{AR PL UKai CN}
+\usetheme{metropolis}
+\title{极其简单的DP选讲}
+\date{\today}
+\author{ljfcnyali}
+\begin{document}
+
+  \maketitle
+  \begin{frame}{目录}
+    \par 一些DP技巧
+    \par 插头DP
+    \par 动态DP
+  \end{frame}
+
+  \section{一些DP技巧}
+  \begin{frame}{[SDOI2011]拦截导弹}
+    \par 有$n$个导弹，每个导弹有高度$h$和速度$v$，拦截一个导弹的要求是高度和速度不能增加，求最多能拦截多少导弹
+    \par $n\le 5\times 10^4,h_i,v_i\le 1000$
+  \end{frame}
+  
+  \begin{frame}{[SDOI2011]拦截导弹}
+    \onslide<1-> 这道题DP方程特别简单，设$dp_i$表示拦截第$i$个导弹时最多可以拦截多少导弹，有方程$dp_i=max_{1\le j\le i-1}(dp_j+1)$
+    
+    \onslide<2-> 主要考虑优化状态转移，有一种很巧妙的方式是使用CDQ分治(还可以用KD-Tree?)
+
+    \onslide<3-> 其实在CDQ分治里只需要改变CDQ分治的顺序，先递归计算$l-Mid$，再计算左半对右半的更新，最后递归计算$Mid+1-r$
+    
+    \onslide<4-> 为什么是对的？
+
+    \onslide<5-> DP转移需要满足转移必须有序，即不可以出现半成品，可以发现这种顺序相当于CDQ分治树的中序遍历
+
+    \onslide<6-> 这题其实还有一个第二问，但是与我们的标题不符就删去了
+  \end{frame}
+
+  \begin{frame}{斜率优化 [APIO2010]特别行动队}
+    \onslide<1-> 因为大家学习过斜率优化DP，这里就只讨论一种基本解法
+
+    \onslide<2-> 首先看一道例题
+
+    \onslide<3-> 有一支由$n$个士兵组成的部队，要求分成连续的若干段，每一段的战斗力为$ax^2+bx+c$，其中$x$是这一段士兵的战斗力和，求出最大的战斗力总和
+    
+    \onslide<4-> $a<0,n\le 10^6$
+  \end{frame}
+
+  \begin{frame}{斜率优化 [APIO2010]特别行动队}
+    \onslide<1-> 设$sum_i$为前缀和，可以很简单的写出DP方程
+
+    \onslide<2-> $dp_i=max_{0\le j<i}\{dp_j+a\times(sum_i-sum_j)^2+b\times(sum_i-sum_j)+c\}$
+
+    \onslide<3-> 进行斜率优化推式子的基本步骤是假设由$j$转移比由$k$转移更优($k<j$，因为我们维护的是一个单调队列同时应弹出队首)，则有：
+
+    \onslide<4-> $dp_j-2asum_isum_j+asum_j^2-bsum_j>dp_k-2asum_isum_k+asum_k^2-bsum_k$
+
+    \onslide<5-> 接下来一步是把同时和$i,j$或$i,k$有关的项移到一边
+
+    \onslide<6-> $dp_j+asum_j^2-bsum_j-dp_k-asum_k^2+bsum_k>2asum_i(sum_j-sum_k)$
+  \end{frame}
+
+  \begin{frame}{斜率优化 [APIO2010]特别行动队}
+    \onslide<1-> 再将这一边的项中与$j,k$有关的除过去
+
+    \onslide<2-> $$\frac{dp_j+asum_j^2-bsum_j-dp_k-asum_k^2+bsum_k}{sum_j-sum_k}>2asum_i$$
+  
+    \onslide<3-> 注意到题目中保证$a<0$，则等式右边单调递减并一直为负，所以我们需要维护一个上凸壳
+
+    \onslide<4-> 弹队尾的时候应取小于号(上凸壳是小于号，下凸壳反之，等于号无所谓)
+  \end{frame}
+
+  \begin{frame}{四边形不等式优化}
+    \onslide<1-> 假设DP式为$f_{i,j}=min_{k=i}^{j-1}\{f_{i,k}+f_{k+1,j}\}+w_{i,j}$时，若满足四边形不等式时可以进行优化：
+
+    \onslide<2-> 四边形不等式：对于$a\le b\le c \le d$均有$w_{a,c}+w_{b,d}\le w_{a,b}+w_{c,d}$，若$w_{i,j}$满足四边形不等式，则$f_{i,j}$也满足四边形不等式
+
+    \onslide<3-> 假设$f_{i,j}$是由$s_{i,j}$转移得到(最优决策点)，那么$f_{i,j}$的最优决策点当且仅当在$[s_{i,j-1},s_{i+1,j}]$范围内
+
+    \onslide<4-> 可以证明时间复杂度是$O(n^2)$
+  \end{frame}
+
+  \begin{frame}{四边形不等式优化 [IOI2000]邮局}
+    \onslide<1-> 有$V$个村庄，给定村庄坐标，需要建立$P$个邮局，使得村庄到其最近的邮局的距离和最小
+
+    \onslide<2-> $P\le 300,V\le 3000$
+  \end{frame}
+
+  \begin{frame}{四边形不等式优化 [IOI2000]邮局}
+    \onslide<1-> 朴素做法很好想，设$f_{i,j}$表示前$i$个村庄建立$j$个邮局的最小距离和，那么有DP方程
+
+    \onslide<2-> $f_{i,j}=min_{0\le k<i}\{f_{k,j-1}+dis(k+1,i)\}$
+
+    \onslide<3-> 其中$dis(l,r)$表示在村庄$[l,r]$中建立一座邮局的最小距离和，众所周知建立在中位数最优秀，可以进行预处理
+
+    \onslide<4-> 发现$dis_{i,j}$和$f_{i,j}$均满足四边形不等式，可以直接优化，注意$i$需要倒序枚举
+
+    \onslide<5-> 这题还有一种非常巧妙的办法....去看洛谷题解吧
+  \end{frame}
+
+  \begin{frame}{四边形不等式优化 决策单调性}
+    \onslide<1-> 假设DP式为$f_i=min_{j=1}^{i-1}\{f_j+w(i,j)\}$，并且$w(i,j)$满足四边形不等式，则可以进行优化
+    
+    \onslide<2-> 这种式子经过证明最优决策点会单调递增，所以可以使用分治的方式得到答案
+    
+    \onslide<3-> 分治步骤大概是暴力枚举$Mid$的最优决策点，再分为$l,Mid$和$Mid+1,r$求解，这样会不断缩小暴力求解最优决策点的范围，可以证明时间复杂度为$O(nlog_2n)$
+  \end{frame}
+
+  \begin{frame}{四边形不等式优化 [POI2011]Lightning Conductor}
+    \onslide<1-> 给定$a$，求解所有整数$p_i=max_{j=1}^n\{a_j+\sqrt{|i-j|}-a_i\}$
+
+    \onslide<2-> $n\le 5\times 10^5,a_i\le 10^9$
+
+    \onslide<3-> 为了方便大家思考，给出一个输入输出和每个点的最优决策点
+
+    \onslide<4-> 8 2 3 2 4 2 3 2 4，第一个数为$n$，接下来$n$个数表示$a_i$
+    
+    \onslide<5-> 5 4 5 2 4 3 4 3，表示$p_i$
+
+    \onslide<6-> 8 8 8 8 8 4 4 4，表示每个点的最优决策点
+
+    \onslide<7-> 0 0 2 2 4 4 4 4，表示只考虑$j<i$的情况的最优决策点
+
+    \onslide<8-> 8 8 8 8 8 8 8 4，表示值考虑$j\ge i$的情况的最优决策点
+  \end{frame}
+
+  \begin{frame}{四边形不等式优化 [POI2011]Lightning Conductor}
+    \onslide<1-> 观察到这个绝对值不太方便，把绝对值拆开分两种情况
+    
+    \onslide<2-> 打表会发现拆开后的$p_i$满足决策单调性，其中$j<i$的情况下$p_i$单调递增，反之单调递减
+
+    \onslide<3-> 直接照上面的分治方式求解即可
+
+    \onslide<4-> 总结一下这些优化决策区间的题有两种情况，有决策上下界或单调性，具体最好打表来判断，但解法都是类似的
+  \end{frame}
+
+  \begin{frame}{四边形不等式优化 [CF321E]Ciel and Gondolas [BZOJ5311]贞鱼}
+    \onslide<1-> 将长度为$n$的序列分为$k$段，当$i,j$在同一段中，会产生$a_{i,j}$的代价，求最小总代价
+    
+    \onslide<2-> $n\leq 4000,k\leq 800$
+  \end{frame}
+    
+  \begin{frame}{四边形不等式优化 [CF321E]Ciel and Gondolas [BZOJ5311]贞鱼}
+    \onslide<1-> 设$dp_{i,j}$表示前$i$个数分为$j$段的最小总代价，有方程
+    \onslide<2-> $$dp_{i,j}=max_{0\leq k<i}\{dp_{k,j-1}+sum(k+1,i)\}$$
+    
+    \onslide<3-> $sum_{i,j}$可以用前缀和直接求出，同时可以发现在$j$固定的情况下，$dp_{i,j}$满足决策单调性，其中
+    
+    \onslide<4-> 可以使用上面的分治方式，时间复杂度$O(nklog_2n)$，CF可以过，但BZOJ上TLE了
+
+    \onslide<5-> 有一种优化叫wqs优化，可以把时间优化成$O(nlog_2klog_2n)$，但是我不会....
+  \end{frame}
+
+  \section{插头DP}
+
+  \begin{frame}{插头DP [HNOI2004]邮递员}
+    \onslide<1-> 给定$n\times m$的矩阵，求经过所有点的闭合回路个数
+
+    \onslide<2-> $m\le 10,n\le 20$
+
+    \onslide<3-> 插头DP模板题，答案很大注意开$\_\_int128$
+  \end{frame}
+  
+  \begin{frame}{插头DP [UVA10572]Black\&White}
+    \onslide<1-> 一个棋盘，已有部分被染色为黑或白，给所有未染色的格子染上黑或白,使得所有黑格子在同一个连通块，所有白格子在同一连通块。并且不存在一个$2\times 2$的方格中的所有格子颜色相同，求染色方案数并输出一种合法方案
+
+    \onslide<2-> $n,m\le 8,T\le 10$
+  \end{frame}
+
+  \begin{frame}{插头DP [UVA10572]Black\&White}
+    \onslide<1-> 首先考虑输出一种合法方案，只需要记录一下任意一个得到答案的路径即可
+
+    \onslide<2-> 因为不能有$2\times 2$的连通块，所以对于每一个点要记录一下其左上方的点，另外维护的状态应该包含颜色和连通性
+
+    \onslide<3-> 因为这道题不需要插头，所以最小表示法使用记录为第几个连通块，每一次状态转移中连通块个数最多为$m$个
+
+    \onslide<4-> 分类讨论即可(我没调处来...弃疗了)
+  \end{frame}
+
+  \section{动态DP}
+
+  \begin{frame}{动态DP}
+    \onslide<1-> 看oi-wiki.org，里面的是我写的....
+  \end{frame}
+
+  \begin{frame}{练习题}
+    \onslide<1-> 删去了几道题，放到后面可以当做练习题做做
+
+    \onslide<2-> [NOI2007]货币兑换：这道题是CDQ分治+斜率优化，算是一开始讲的两个知识点的综合应用
+
+    \onslide<3-> [NOI2014]购票：这道题是树上的斜率优化，因为斜率的等式右边不满足单调性需要二分(或三分)维护，另外有一些距离限制可以用树剖或点分治解决
+
+    \onslide<4-> [NOI2009]诗人小G：这题是四边形不等式的练习题，但是需要二分来维护决策单调性，很有意思
+
+    \onslide<5-> [GDKOI2016]Map：跟上面那道插头DP有点类似，也是维护连通性，可以用来练练手
+  \end{frame}
+
+  \section{Thanks}
+
+\end{document}

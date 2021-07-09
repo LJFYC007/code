@@ -1,0 +1,54 @@
+\documentclass{noiassignment_modified}
+\usepackage[bookmarks=false, colorlinks, linkcolor=black, anchorcolor=black, citecolor=black, urlcolor=black]{hyperref}
+\theoremstyle{theorem}
+\newtheorem{ex}{例题}
+\numberwithin{equation}{section}
+\usepackage{tikz}
+
+\renewcommand\familydefault{cmr}
+\normalfont
+\SetSymbolFont{operators}   {normal}{OT1}{cmr} {m}{n}
+\SetSymbolFont{letters}     {normal}{OML}{cmm} {m}{it}
+\SetSymbolFont{symbols}     {normal}{OMS}{cmsy}{m}{n}
+\SetSymbolFont{largesymbols}{normal}{OMX}{cmex}{m}{n}
+\SetSymbolFont{operators}   {bold}  {OT1}{cmr} {bx}{n}
+\SetSymbolFont{letters}     {bold}  {OML}{cmm} {b}{it}
+\SetSymbolFont{symbols}     {bold}  {OMS}{cmsy}{b}{n}
+\SetSymbolFont{largesymbols}{bold}  {OMX}{cmex}{m}{n}
+\SetMathAlphabet{\mathbf}{normal}{OT1}{cmr}{bx}{n}
+\SetMathAlphabet{\mathsf}{normal}{OT1}{cmss}{m}{n}
+\SetMathAlphabet{\mathit}{normal}{OT1}{cmr}{m}{it}
+\SetMathAlphabet{\mathtt}{normal}{OT1}{cmtt}{m}{n}
+\SetMathAlphabet{\mathbf}{bold}  {OT1}{cmr}{bx}{n}
+\SetMathAlphabet{\mathsf}{bold}  {OT1}{cmss}{bx}{n}
+\SetMathAlphabet{\mathit}{bold}  {OT1}{cmr}{bx}{it}
+\SetMathAlphabet{\mathtt}{bold}  {OT1}{cmtt}{m}{n}
+
+
+\begin{document}
+
+%% 解题报告开始
+
+\title{《辣鸡提答题》解题报告}
+\author{matthew99}
+
+\maketitle
+\section{试题大意}
+你有一个序列$\{s_i\}$，满足$s_1 = 1$，且对于所有$x > 1$，存在$y \le x - 1$，使得$s_x = s_{x - 1} + s_y$。
+
+给定$k$，现在要你构造一个长度为$n$的序列使得$s_n = k$，并且$n$要求尽量小。
+\section{得分估计}
+估计绝大部分人可以获得29分及以上的分数，一半人可以获得45分及以上的分数，一部分人可以获得60分以上，$10\%$左右的人可以获得90分以上或者满分的分数。
+\section{直接快速幂}
+如果我们直接上快速幂，可以获得24分，加上高精度可以获得40分。第六个点就是$2 ^ {100000}$可以直接获得满分。
+\section{对于给定的数比较小的情况}
+我们注意到快速幂最坏需要$2\log_2n + C$次操作，但是这并不是下界。我们可以做到更少的操作次数。
+
+我们直接BFS，记录每个数对应的序列。首先从$1$出发，$1$对应的序列就是一个数$1$，每次我们对于当前数$x$，枚举它对应的序列中的数$y$，如果$x + y$还没有访问过那么将其入队，并且置它对应的序列为$x$ 对应的序列后面接上$x + y$。这种方法最坏情况下比快速幂优秀得多，可以通过前五个点。
+\section{对于给定的数比较大的情况}
+我们可以通过Method of Four Russians将操作次数由$2\log_2n + C$减少至$\log_2n + O(\frac{\log n}{\log\log n})$。设$2 ^ k$ 为最接近$\frac{\log n}{\log\log n}$的二的整数次幂，预处理出$1$到$2 ^ k - 1$，复杂度显然是$O(\frac{\log n}{\log\log n})$，然后每次倍增，每次倍增完$k$次之后再考虑当前模$2 ^ k$的值，用预处理的值加上去，这样倍增中的操作次数是$\log_2n + C$，而额外的操作次数是$O(\frac{\log n}{k}) = O(\frac{\log n}{\log\log n})$。
+
+由于评分标准设的松的令人感动，因此只要用上述方法应该很容易在7到10号点上获得9分或者10分。
+%% 解题报告结束
+
+\end{document}

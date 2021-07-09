@@ -1,0 +1,20 @@
+for i in {1..20};
+do
+    ./tree < Subtask1/$i.in > Subtask1/$i.out
+done
+
+for i in {1..20};
+do
+    ./tree < Subtask2/$i.in > Subtask2/$i.out
+done
+
+for i in {1..20};
+do
+    ./tree < Subtask3/$i.in > Subtask3/$i.out
+done
+
+for i in {1..20};
+do
+    ./tree < Subtask5/$i.in > Subtask5/$i.out
+done
+

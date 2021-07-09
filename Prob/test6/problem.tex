@@ -1,0 +1,215 @@
+ 
+\documentclass[UTF8]{ctexart}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{color}
+
+\begin{document}
+\title{良心CSP-S模拟赛}
+\author{Adscn}
+\date{2019年11月??日}
+\maketitle
+
+\begin{table}[!htbp]
+	\centering
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		题目名称&简单的推式子练习题&简单的字符串练习题&简单的杜教筛练习题\\
+		\hline
+        题目类型&传统型&传统型&传统型\\
+        \hline
+        目录&formula&string&interval\\
+        \hline
+        可执行文件名&formula&string&interval\\
+        \hline
+        输入文件名&formula.in&string.in&interval.in\\
+        \hline
+        输出文件名&formula.out&string.out&interval.out\\
+        \hline
+        每个测试点时限&3s&1s&7s\\
+        \hline
+        内存限制&512MB&512MB&512MB\\
+        \hline
+        测试点/包数目&20&20&10\\
+        \hline
+        测试点是否等分&是&是&是\\
+		\hline
+    \end{tabular}
+\end{table}
+
+注意事项:
+
+1.该比赛为\sout{良心模拟赛}
+
+2.本考试所有目录,文件名均为\textbf{小写}
+
+3.本考试\sout{不保证}数据正确性
+
+4.所有题目的时间限制在std的1.5倍以上
+
+5.在$Ubuntu\ 18.04$下评测,开启O2优化，启用--std=c++11
+
+6.本场考试送分到位，请AK的同学低调离场，不要声张。
+
+7.Orz $\color{black}\texttt{Q}\color{red}\texttt{AQAutomaton}$
+
+8.请注意64位整数的运算效率问题
+
+9.题目其实很\textbf{简单}
+
+\clearpage
+
+\begin{center}
+    \large{简单的推式子练习题}
+\end{center}
+\paragraph{题目描述}
+\paragraph{}
+给出一颗树,点有点权,请支持以下操作
+
+$1.$换根并询问\textbf{所有子树}的\textbf{带边权点权和}
+
+$2.$修改一个点的权值
+
+\textbf{带边权点权和}定义:
+
+设$Sum_x$为\textbf{子树}内的\textbf{点权和}
+
+一个子树$x$的带边权点权和为
+
+$dep_x*Sum_x$
+
+形式化地，询问的值是
+$$
+    \sum\limits_{x\in Tree} dep_x\sum\limits_{v\in subtree\, of\,x}{val_v}
+$$
+
+\paragraph{输入格式}
+\paragraph{}
+第一行两个数字$n,q$表示树的节点个数与操作个数
+
+接下来的 $n-1$ 行，每行包含两个正整数 $u$ 和 $v$ ($1\le u,v\le n$)，表示 $u$ 和 $v$ 之间由一条边相连。
+
+第$n+1$行，有$n$个数字$a_1,a_2,a_3\ldots a_n$，表示$n$个点的点权($|a_i|\leq 10^9$)
+
+接下来的 $q$ 行，每行的最开始包含一个整数$opt$
+
+若$opt=1$ 接下来有两个数$x,y$,表示将$x$号点的点权修改成$y$
+
+否则 接下来有一个数$x$,表示询问以$x$为根的带边权点权和（对$10^9+7$取模）
+
+数据保证给出的边能构成一棵树。
+
+\paragraph{输出格式}
+\paragraph{}对于每个操作2输出一行答案在$mod$$\,{10^9+7}$意义下的最小正整数
+\paragraph{样例1输入}
+\begin{lstlisting}
+    10 4
+    1 2
+    1 3
+    2 6
+    2 4
+    4 8
+    8 9
+    3 5
+    3 7
+    5 10
+    2 1 3 4 2 3 4 2 1 -1
+    2 1
+    1 8 5
+    2 1
+    2 6
+\end{lstlisting}
+\paragraph{样例1输出}
+\begin{lstlisting}
+    59
+    77
+    122
+\end{lstlisting}
+\paragraph{数据范围}
+\paragraph{}Subtask1.对于$20\%$的数据，$n,q\leq 2000$
+\paragraph{}Subtask2.对于$40\%$的数据，$n,q\leq 50000$
+\paragraph{}Subtask3.对于另外$10\%$的数据，保证图的形态为菊花
+\paragraph{}Subtask4.对于另外$10\%$的数据，保证图的形态为链
+\paragraph{}Subtask5.对于另外$10\%$的数据，数据随机
+\paragraph{}对于$100\%$的数据，$n,q\leq 3*10^5$
+\paragraph{提示}
+\paragraph{}题目其实很\textbf{套路}
+
+\clearpage
+
+\begin{center}
+    \large{简单的字符串练习题}
+\end{center}
+\paragraph{题目描述}
+\paragraph{}现在有一个长度为$n$的01串$s$，你需要构造长度为$m$的01串，使得其子串与原串$s$\textbf{至多}有一个位置不同，询问构造长度为$m$的01串的方案数
+\paragraph{输入格式}
+\paragraph{}首先一行一个数$T$表示数据组数
+\paragraph{}对于每组数据第一行两个数$n$，$m$
+\paragraph{}接下来一个长度为$n$的01串$s$
+\paragraph{输出格式}
+\paragraph{}共$T$行，每行一个数表示答案(对998244353取模)
+\paragraph{样例1输入}
+\begin{lstlisting}
+    3
+    2 3
+    10
+    4 6
+    1010
+    6 9
+    010110
+\end{lstlisting}
+\paragraph{样例1输出}
+\begin{lstlisting}
+    8
+    49
+    208
+\end{lstlisting}
+\paragraph{}
+\paragraph{样例解释}
+\paragraph{}因为答案过大，所以只对第一个数据进行解释:
+\paragraph{}可以构造出来的串$m$有$111,110,101,100,011,010,001,000$(其实都可以$\dots$)
+\paragraph{数据范围}
+\paragraph{}对于$20\%$的数据，$n,m\leq 10$，$T=1$
+\paragraph{}对于$50\%$的数据，$n,m\leq 20$，$T\leq 10$
+\paragraph{}对于另外$10\%$的数据，$n=m$且$n,m\leq 50$，$T\leq 100$
+\paragraph{}对于$100\%$的数据，$n,m\leq 200$，$T\leq 100$
+
+\paragraph{提示}
+\paragraph{}题目并\textbf{不难}
+\clearpage
+
+\begin{center}
+    \large{简单的杜教筛练习题}
+\end{center}
+\paragraph{题目描述}
+\paragraph{}
+给你两个数$l,r$,请你求
+$$
+\sum\limits_{i=l}^r{\sigma(i)}
+$$
+其中
+$$
+\sigma(x)=\sum\limits_{d|x} d
+$$
+\paragraph{输入格式}
+\paragraph{}第一行两个数$l$，$r$
+\paragraph{输出格式}
+\paragraph{}一个数表示答案(对$10^9+7$取模)
+\paragraph{样例1输入}
+\begin{lstlisting}
+    10 30
+\end{lstlisting}
+\paragraph{样例1输出}
+\begin{lstlisting}
+    693
+\end{lstlisting}
+\paragraph{数据范围}
+\paragraph{}对于$20\%$的数据，$l,r\leq 6*10^5$
+\paragraph{}对于$40\%$的数据，$l,r\leq 2*10^{12}$
+\paragraph{}对于$100\%$的数据，$l,r\leq 10^{18},r-l\leq10^5$
+\paragraph{提示}
+\paragraph{}这是一道良心\textbf{大水题}
+\end{document}

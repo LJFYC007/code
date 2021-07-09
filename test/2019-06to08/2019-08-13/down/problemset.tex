@@ -1,0 +1,183 @@
+\documentclass[UTF8, 11pt]{ctexart}
+\usepackage{amsmath, CJKutf8, setspace, tabu, multirow, fancyhdr, indentfirst, geometry, graphicx, color,xcolor, makecell}
+
+\geometry{left=4.0cm,right=4.0cm,top=4.8cm,bottom=4.8cm}
+
+\begin{document}
+
+\pagestyle{fancy}
+\lhead{正常的NOIP模拟赛}
+\rhead{xcy}
+\renewcommand{\headrulewidth}{0.4pt}
+\date{}
+\title{正常的NOIP模拟赛}
+\author{xcy}
+
+\begin{CJK}{UTF8}{gkai}
+\begin{spacing}{1.2}
+    \maketitle
+    \begin{center}
+    \begin{tabular}{|p{4cm}|p{3cm}|p{3cm}|p{3cm}|}
+        \hline
+        题目名称 & a & b & c \\
+		\hline
+        输入文件名 & a.in & b.in & c.in \\
+        \hline
+        输出文件名 & a.out & b.out & c.out \\
+        \hline
+        题目类型 & 传统型 & 传统型 & 传统型 \\
+        \hline
+        时间限制 & 1s & 1s & 2s \\
+        \hline
+        空间限制 & 512MB & 512MB & 512MB \\
+        \hline
+        代码长度限制 & 50KB & 50KB & 50KB \\
+		\hline
+        测试点个数 & 20 & 20 & 20 \\
+		\hline
+		每个测试点分值 & 5 & 5 & 5 \\
+        \hline
+	\end{tabular}
+	\end{center}
+
+	注意: 
+
+
+	\ \ \ \ 1. 第$2$题和第$3$题有大样例, 不同的大样例对应不同的部分分.
+	
+	\ \ \ \ \ \ \ 大样例在/down/samples中.
+
+	\ \ \ \ 2. 发现原题请勿声张.
+
+	\ \ \ \ 3. 评测时开O2, 但不开C++11.
+
+	\newpage
+	\section{a}
+		\subsection{Description}
+			给定$T\in\{1,2\}$, 再给定正整数$N$.
+
+			若$T=1$, 输出二元方程$\frac{1}{x}+\frac{1}{y}=\frac{1}{N}$的正整数解$(x,y)$的个数.
+
+			若$T=2$, 输出二元方程$\frac{1}{x}+\frac{1}{y}=\frac{1}{N!}$的正整数解$(x,y)$的个数.
+
+			答案均对$10^9+7$取模.
+		\subsection{Input Format}
+			读入一行两个数$T,N$.
+		\subsection{Output Format}
+			输出一行一个数, 表示答案.
+		\subsection{Sample 1}
+		\subsubsection{Input}
+		\begin{verbatim}
+		    1 120
+		\end{verbatim}
+		\subsubsection{Output}
+		\begin{verbatim}
+		    63
+		\end{verbatim}
+		\subsection{Sample 2}
+		\subsubsection{Input}
+		\begin{verbatim}
+		    2 1439
+		\end{verbatim}
+		\subsubsection{Output}
+		\begin{verbatim}
+		    102426508
+		\end{verbatim}
+		\subsection{Constraints}
+			\begin{center}
+			\begin{tabular}{p{2cm}<{\centering}|p{1.5cm}<{\centering}|p{1.5cm}<{\centering}|p{1.5cm}<{\centering}}
+			\Xhline{1.5pt}
+			测试点编号 & $T$ & $N$ & 分值\\
+			\Xhline{1.2pt}
+			1$\sim$4 & \multirow{2}*{=1} & $\le 10^6$ & 20 \\
+			\cline{1-1}
+			\cline{3-4}
+			5$\sim$8 & & $\le 10^{12}$ & 20\\
+			\hline
+			9$\sim$12 & \multirow{2}*{=2} & $\le 15$ & 20 \\
+			\cline{1-1}
+			\cline{3-4}
+			13$\sim$20 & & $\le 10^{6}$ & 40\\
+			\Xhline{1.5pt}
+			\end{tabular}
+			\end{center}
+
+	\newpage
+	\section{b}
+		\subsection{Description}
+			$N$个机器人排布在数轴上. 给定每个机器人所在点的坐标$x_i$, 交流半径$r_i$和兼容性$q_i$. 处在$x_i$的机器人, 其交流范围为$[x_i-r_i, x_i+r_i]$.
+
+			两个机器人$i,j$能进行交流当且仅当每个机器人都在对方的交流范围内(即$x_i\in[x_j-r_j,x_j+r_j]$且$x_j\in[x_i-r_i,x_i+r_i]$), 且它们的兼容性之差的绝对值不超过一个给定的常数$K$(即$|q_i-q_j|\le K$).
+
+			问有多少对机器人能进行交流. $(i,j)$和$(j,i)$算作同一对.
+		\subsection{Input Format}
+			第一行有两个数$N,K$.
+
+			第$2\sim (N+1)$行, 每行三个数, 第$i$行为$x_{i-1},r_{i-1},q_{i-1}$.
+		\subsection{Output Format}
+			输出一行一个数, 表示答案.
+		\subsection{Sample}
+		\subsubsection{Input}
+		\begin{verbatim}
+		    3 2
+		    3 6 1
+		    7 3 10
+		    10 5 8
+		\end{verbatim}
+		\subsubsection{Output}
+		\begin{verbatim}
+		    1
+		\end{verbatim}
+		\subsubsection{Explanation}
+			只有第$2$个和第$3$个机器人才能进行交流.
+		\subsection{Constraints}
+			Subtask 1: $N\le10^3$, 30pts.
+
+			Subtask 2: $K=0$, 20pts.
+
+			Subtask 3: 无特殊限制, 50pts.
+
+			对于所有的数据, $1\le N\le10^5$, $0\le K \le 20$, $0\le x_i,r_i\le10^9$, $0\le q_i\le 5\times 10^8$.
+	\newpage
+	\section{c}
+		\subsection{Description}
+			给定一棵$n$个点的无根树, 其中点$a$, $b$是黑色的, 其他点是白色的. $a$, $b$可能是同一个点, 这样相当于只有那一个点是黑色的, 其他$(n-1)$个点是白色的.
+
+			接下来不断进行操作, 每次操作把一个黑点染红, 同时把和它相邻的白点染黑. 所有点均被染红时操作完成.
+
+			问把所有点染红有多少种操作方案. 两方案不同当且仅当依次被操作的点的形成的序列不同.
+
+			答案对$998244353$取模.
+		\subsection{Input Format}
+			第一行三个数, $n$, $a$, $b$.
+
+			接下来$(n-1)$行, 每行两个数$x$, $y$, 表示树上的一条边$(x,y)$.
+		\subsection{Output Format}
+			输出一行一个数, 表示答案.
+		\subsection{Sample}
+		\subsubsection{Input}
+		\begin{verbatim}
+		    4 1 2
+		    1 2
+		    2 3
+		    3 4
+		\end{verbatim}
+		\subsubsection{Output}
+		\begin{verbatim}
+		    4
+		\end{verbatim}
+
+		\subsection{Constraints}
+			对于$20\%$的数据, $n\le 10$.
+
+			对于另外$20\%$的数据, $a=b$.
+
+			对于另外$20\%$的数据, 每个点的度数不超过$2$.
+
+			对于$100\%$的数据, $n\le5000$.
+		\newpage
+
+\end{spacing}
+\end{CJK}
+
+\end{document}

@@ -1,0 +1,56 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{listings}
+
+\begin{document}
+\title{solution}
+\author{ljfcnyali}
+\date{2019年8月3日}
+\maketitle
+
+\clearpage
+
+\begin{center}
+    \large{pythagorean}
+\end{center}
+\paragraph{$19\mathrm{pts}$}
+\paragraph{}随便跑
+\paragraph{$22\mathrm{pts}$}
+\paragraph{}考虑枚举，时间复杂度$O(n^2)$
+\paragraph{$58\mathrm{pts}$}
+\paragraph{}首先预处理出$c\leq 5000$的所有答案，记$ans[i]$表示$c=i$的方案数，前缀和记录一下，$O(1)$询问即可
+\paragraph{$1\mathrm{pts}$}
+\paragraph{}这个有一个结论(可以参考洛谷日报中的一篇文章)，这里讲一下结论吧:假设$a^2+b^2=c^2$则有$a=st,b=\frac{s^2-t^2}{2},c=\frac{s^2+t^2}{2}$并满足$1\leq t<s$($s,t$互质且均为奇数)
+\paragraph{}所以可以枚举$c,t(1\leq t\leq \sqrt{c})$，时间复杂度为$O((r-l)\sqrt{r})$
+
+\clearpage
+
+\begin{center}
+    \large{road}
+\end{center}
+\paragraph{}很明显是搜索(\sout{网络流})，显然从$1$号点开始爆搜就有分了，一般搜索状态为$(u,sum,cost)$表示当前$u$号点，总长度为$sum$，总快乐值为$cost$
+\paragraph{}数据极其有梯度，考虑剪枝
+\paragraph{}一、记录一个$ans$表示答案，如果$ans\leq sum$则退出
+\paragraph{}二、同理如果$cost>k$则退出
+\paragraph{}三、我们可以用$SPFA$跑一个从$n$号点的$dis1[i]$表示从$i$到$n$的最小快乐值的和，$dis2[i]$表示从$i$到$n$的最短距离，所以$cost+dis1[u]>k$或者$ans\leq sum+dis2[u]$都要退出
+\paragraph{}四、记一个$use[u][cost][num]$表示当前在$u$总快乐值为$cost$总共经过$num$个点的最短总长度，如果当前$sum$大于则退出
+\paragraph{}五、上面这个剪枝是错的(可以仔细思考一下)，但加上这个剪枝后速度有很大提升，所以我们添加一个$rand$来控制几率，在部分几率的情况下不退出(我设置为$\frac{2}{5}$)
+
+\clearpage
+
+\begin{center}
+    \large{water}
+\end{center}
+\paragraph{$13\mathrm{pts}$}
+\paragraph{}$O(2^n)$搜索，对于每台空调判断建或不建排水箱
+\paragraph{$19\mathrm{pts}$}
+\paragraph{}可以考虑$DP$，设$dp[i]$表示当前考虑第$i$台空调并在此修建排水箱的最小总代价，可以得到转移方程$dp[i]=min(dp[j]+\sum_{k=j+1}^{i}P[k]*(X[i]-X[k])+C[i])(0\leq j<i)$，时间复杂度$O(n^3)$
+\paragraph{$36\mathrm{pts}$}
+\paragraph{}前缀和优化，时间复杂度$O(n^2)$
+\paragraph{$32\mathrm{pts}$}
+\paragraph{}设$sum1[i]=\sum_{j=1}^{i}P[j],sum2[i]=\sum_{j=1}^{i}X[j]*P[j]$，我们可以将方程化为$dp[i]=min(dp[j]+X[i]*(sum1[i]-sum1[j])-sum2[i]+sum2[j]+c[i])$
+\paragraph{}化为$y=kx+b$的形式即$dp[i]+sum2[i]=X[i]*sum1[i]-X[i]*sum1[j]+sum2[j]+c[i]$，所以直接斜率优化即可
+\end{document}

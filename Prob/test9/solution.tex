@@ -1,0 +1,19 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{listings}
+
+\begin{document}
+\begin{center}Easiest\end{center}
+\paragraph{}考虑暴力计算阶乘，出现$0$退出
+\begin{center}Tree\end{center}
+\paragraph{}观察对于一个子树的根$x$，可以将其儿子根据形态分开来做，对于第$i$种形态，设$f_i$表示该种形态的答案，$cnt_i$表示该种形态的子树个数，则有$ans=\sum_{k=1}^{cnt_i}\binom{cnt_i-1}{k-1}\times \binom{f_i}{k}$。
+\paragraph{}对于不同的形态可以用乘法原理合并即可，再乘上根的方案数$m$，该做法复杂度实际为$O(n)$
+\paragraph{}课后作业：想一想无根树怎么做？
+\begin{center}Horseless\end{center}
+\paragraph{}设$f(x)$表示在$x$时刻可以获得的最多码，另外观察题意，我们购买的码力自动机一定是价格递增的，所以考虑将所有码力自动机按价格递增排序，再依次考虑是否购买
+\paragraph{}假设$f(x)$是一个函数，那么我们肯定是要维护一个上凸壳，而购买一个码力自动机会对未来造成的贡献一定是一条直线，那么只需要用李超线段树简单的维护一下即可，复杂度为$O(nlog^2_n)$
+\paragraph{}但是冷静分析一下该题的特殊性，一定有斜率单调递增，所以可以拿双指针做到维护凸壳是$O(n)$的复杂度，加上排序复杂度为$O(nlog_n)$
+\end{document}

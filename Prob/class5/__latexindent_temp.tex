@@ -1,0 +1,63 @@
+\begin{frame}{作为今天的开胃小水题}
+	今天来讲一个经典题\pause
+	的加强版。
+
+	\pause
+	可能有人见过了，不过放在联赛题目的宣讲小清新开场还不错。
+\end{frame}
+\section{某题}
+\begin{frame}{Statement}
+	给定一棵大小为$n$的有标号无根树和一参数$k$。
+	
+	求有几棵树的边集的与原树边集的交集大小不小于$k$。
+
+	经典范围：$n\le 100$
+
+	加强范围：$n\le 5000$
+\end{frame}
+\section{naive solution}
+\begin{frame}{$n\le 100$}
+	考虑矩阵树定理。
+
+	对大小为$n$的完全图运用矩阵树定理：把原树中出现的边权设为$x$，其他的边设为$1$。\pause
+
+	容易发现，求出的行列式是一个关于$x$的多项式$f(x)$，求出$\sum_{i\geq k}[x^i]f(x)$即可。
+
+	暴力求$f(x)$也不难，枚举点值然后插值就行了。\pause
+
+	$\mathcal O(n^4)$
+\end{frame}
+\section{better solution}
+\begin{frame}{$n \le 5000$}
+	矩阵树定理好像没啥前途。\pause
+
+	如果我们现在已经钦定了一些边一定相同（即一定出现在交集中），怎么统计方案呢？
+
+	现在我们面临的局面是：有$n$个点形成了$k$个连通块，第$i$个连通块的大小为$s_i$，求把它们连成一棵树的方案数。\pause
+
+	朋友，你看过\href{https://oi-wiki.org/graph/prufer/}{oi-wiki上介绍prufer的页面吗}？
+
+	\begin{center}
+		\includegraphics[width=10cm]{prufer-query.png}
+
+		\includegraphics[width=10cm]{prufer-answer.png}
+	\end{center}
+	\pause
+
+	具体证明可以考虑枚举prufer序列，oi-wiki上讲解得非常详细，不再赘述。
+\end{frame}
+\begin{frame}{$n \le 5000$}
+	所以我们现在面临的问题变成了：求所有钦定$m$条边相同时，$\prod a_i$的和。
+	\pause
+	
+	朋友，你听说过WC[2019]数树吗？
+
+	$a_i$的组合意义也就是“在$i$号连通块里面选出一个点。”
+	\pause
+
+	好做了，设$f_{u,l,0/1}$表示“$u$的子树内钦定$l$条边相同，当前连通块选不选点”的方案数，dp即可。
+
+	最后在套一个二项式反演就行啦。\pause
+
+	$\mathcal O(n^2)$
+\end{frame}

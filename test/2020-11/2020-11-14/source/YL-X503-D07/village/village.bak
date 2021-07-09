@@ -1,0 +1,58 @@
+/***************************************************************
+	File name: village.cpp
+	Author: ljfcnyali
+	Create time: 2020年11月14日 星期六 08时51分07秒
+***************************************************************/
+#include<bits/stdc++.h>
+
+using namespace std;
+
+#define REP(i, a, b) for ( int i = (a), _end_ = (b); i <= _end_; ++ i ) 
+#define mem(a) memset ( (a), 0, sizeof ( a ) ) 
+#define str(a) strlen ( a ) 
+#define pii pair<int, int>
+typedef long long LL;
+
+const int maxn = 310;
+
+int n, m, a[maxn][maxn], ans, sum[maxn][maxn];
+
+int main()
+{
+    freopen("village.in", "r", stdin);
+    freopen("village.out", "w", stdout);
+    scanf("%d%d", &n, &m);
+    REP(i, 1, n) REP(j, 1, m) scanf("%1d", &a[i][j]);
+    sum[1][1] = -1;
+    REP(i, 1, n + 1) REP(j, 1, m + 1) 
+    {
+        if ( a[i][j - 1] ) -- sum[i][j];
+        else if ( a[i - 1][j - 1] ) -- sum[i][j];
+    }
+    REP(i, 1, n + 1) REP(j, 1, m + 1)
+    {
+        if ( a[i - 1][j] ) -- sum[i][j];
+        else if ( a[i - 1][j - 1] ) -- sum[i][j];
+    }
+    REP(i, 1, n + 1) REP(j, 1, m + 1) 
+    {
+        if ( !a[i - 1][j - 1] ) continue ;
+        ++ sum[i][j]; ++ sum[i - 1][j - 1];
+        if ( !a[i - 1][j] ) ++ sum[i - 1][j];
+        if ( !a[i][j - 1] ) ++ sum[i][j - 1];
+        if ( !a[i - 1][j] && !a[i][j - 1] && !a[i][j] ) ++ sum[i][j];
+    }
+    REP(i, 1, n + 1) REP(j, 1, m + 1) sum[i][j] += sum[i - 1][j] + sum[i][j - 1] - sum[i - 1][j - 1];
+    cout << sum[2][3] << endl;
+
+    REP(i, 1, n) REP(j, i + 1, n + 1)
+        REP(x, 1, m) REP(y, x + 1, m + 1)
+        {
+            int val = sum[j][y] - sum[j][x - 1] - sum[i - 1][y] + sum[i - 1][x - 1];;
+            if ( val == 0 ) ++ ans;
+            cout << i << " " << x << " " << j << " " << y << " " << val << endl;
+        }
+
+    printf("%d\n", ans);
+    return 0;
+}

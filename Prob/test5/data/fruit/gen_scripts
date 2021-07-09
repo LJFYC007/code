@@ -1,0 +1,40 @@
+./gen 10 > 1.in
+./fruit < 1.in > 1.out
+./gen 10 > 2.in
+./fruit < 2.in > 2.out
+./gen 10 > 3.in
+./fruit < 3.in > 3.out
+./gen 10 > 4.in
+./fruit < 4.in > 4.out
+./gen 10 > 5.in
+./fruit < 5.in > 5.out
+./gen 10 > 6.in
+./fruit < 6.in > 6.out
+./gen 10000 > 7.in
+./fruit < 7.in > 7.out
+./gen 10000 > 8.in
+./fruit < 8.in > 8.out
+./gen 10000 > 9.in
+./fruit < 9.in > 9.out
+./gen 10000 > 10.in
+./fruit < 10.in > 10.out
+./gen 10000 > 11.in
+./fruit < 11.in > 11.out
+./gen 10000 > 12.in
+./fruit < 12.in > 12.out
+./gen 10000 > 13.in
+./fruit < 13.in > 13.out
+./gen 10000 > 14.in
+./fruit < 14.in > 14.out
+./gen 10000 > 15.in
+./fruit < 15.in > 15.out
+./gen 10000 > 16.in
+./fruit < 16.in > 16.out
+./gen 10000 > 17.in
+./fruit < 17.in > 17.out
+./gen 10000 > 18.in
+./fruit < 18.in > 18.out
+./gen 10000 > 19.in
+./fruit < 19.in > 19.out
+./gen 10000 > 20.in
+./fruit < 20.in > 20.out

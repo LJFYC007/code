@@ -1,0 +1,251 @@
+\documentclass[10pt]{beamer}
+\usepackage{xeCJK}
+\setsansfont{Monaco}
+\setCJKmonofont{AR PL UKai CN}
+\usetheme{metropolis}
+\title{2013年NOIP试题分析}
+\date{\today}
+\author{ljfcnyali}
+\begin{document}
+
+  \maketitle
+  \section{Day1 T1}
+
+  \begin{frame}{Day1 T1 转圈游戏}
+    \par 有$n$个小伙伴，编号为$0\rightarrow n-1$围成一个环，每轮每个小伙伴移动$m$个位置，即第$0$个移动到第$m$个位置，第$n-m$移动到第$0$个位置，一共进行了$10^k$轮，求编号为$x$的小伙伴的位置
+    \par $30'$满足$k\leq 7$
+    \par $80'$满足$k\leq 10^7$
+    \par $100'$满足$n\leq 10^7,k\leq 10^9$
+  \end{frame}
+
+  \begin{frame}{Day1 T1 转圈游戏}
+    \onslide<1-> $30'$暴力移动每一个人即可
+    
+    \onslide<2-> $80'$考虑编号为$x$的伙伴，第一轮会移动到$x+m(mod\ n)$，第二次移动到$x+2m(mod\ n)$，则第$10^k$移动到$x+10^k m(mod\ n)$
+    
+    \onslide<3-> $\ \ $所以直接$O(k)$的求出$10^k$
+    
+    \onslide<4-> $100'$发现$k$较大，问题即转化为如何快速求$10^k(mod\ n)$，快速幂套模板即可
+  \end{frame}
+
+  \begin{frame}{Day1 T1 转圈游戏}
+    \onslide<1-> 总结一下这道题做法:将式子推出来，用快速幂优化时间复杂度
+
+    \onslide<2-> 另外这道题可以将循环节推出来，周期长度为$n/gcd(n,m)$，然后随便怎么做都可以
+
+    \onslide<3-> Day T1还是相信大多数人可以在半个小时内解决掉的$\dots$
+  \end{frame}
+
+  \section{Day1 T2}
+
+  \begin{frame}{Day1 T2 火柴排队}
+    \onslide<1-> 有两盒每盒$n$根火柴，每根火柴有一个高度，将每盒火柴排成一列，同一列火柴的高度互不相同，定义两列火柴的距离为$\sum_{i=1}^{n}(a_i-b_i)^2$
+
+    \onslide<2-> 每列火柴中相邻两根火柴可以交换，求出使得这两列火柴距离最小的交换次数，对99999997取模
+
+    \onslide<3-> $60'$满足$n\leq 10^3$
+
+    \onslide<4-> $100'$满足$n\leq 10^6$
+  \end{frame}
+
+  \begin{frame}{Day1 T2 火柴排队}
+    \onslide<1-> 第一个性质:只需要交换第一列
+
+    \onslide<2-> 第二个性质:假设第二列中第$i$根火柴的高度排名为$rank_i$，当且仅当第一列中第$i$根火柴的高度排名也为$rank_i$时两列火柴距离最短
+
+    \onslide<3-> 证明:先拆一下式子，发现影响答案的是$2\times \sum_{i=1}^{n}a_ib_i$，我们需要最大化这个值来使得答案最小
+
+    \onslide<4-> 假设$a_i<a_j,b_i<b_j$，可以得到$b_i(a_j-a_i)<b_j(a_j-a_i)$
+    
+    \onslide<5-> 移下项即得$a_ib_i+a_jb_j>a_ib_j+a_jb_i$
+  \end{frame}
+
+  \begin{frame}{Day1 T2 火柴排队}
+    \onslide<1-> 现在这个问题就很好解决了，首先将$a,b$都离散化，因为答案只关心$a_i,b_i$的位置关系
+
+    \onslide<2-> 令$p[i]$等于$a_i$与之值相等的$b_j$的位置，只需求出使得$p$序列升序的最小交换次数
+
+    \onslide<3-> 答案即$p$数组的逆序对，树状数组和归并排序都可以求出答案
+  \end{frame}
+
+  \begin{frame}{Day1 T2 火柴排队}
+    \onslide<1-> 这道题关键在于猜结论并进行证明，这个结论其实非常套路
+
+    \onslide<2-> 后面的处理还是需要一点技巧，离散化+逆序对也是逆序对题目的经典套路了
+
+    \onslide<3-> 这题算结论题么(类似小凯的疑惑)???
+  \end{frame}
+
+  \section{Day1 T3}
+
+  \begin{frame}{Day1 T3 货车运输}
+    \onslide<1-> 有$n$座城市$m$条道路，每条道路有限重$w_i$，现在有$q$辆货车运送货物，司机想知道每台车在不超过限重的情况下最多可以运送多重的货物
+
+    \onslide<2-> $100'$满足$n\leq 10^4,m\leq 5\times 10^4,q\leq 3\times 10^4$
+  \end{frame}
+
+  \begin{frame}{Day1 T3 货车运输}
+    \onslide<1-> 方法一
+
+    \onslide<2-> 观察可发现一个性质:经过的路径一定是最大生成树上的一个子路径
+
+    \onslide<3-> 先将每个连通块分开，我们只需要考虑在一个连通块中的情况
+
+    \onslide<4-> 对于每一个连通块，求出最大生成树，并且将LCA进行预处理，维护每个节点的祖先和最小边权，每个询问的答案一定是$u\rightarrow v$在最大生成树的路径上的边权最小值
+    
+    \onslide<5-> 为什么我觉得这道题又是一道结论题呢???
+  \end{frame}
+
+  \begin{frame}{Day1 T3 货车运输}
+    \onslide<1-> 方法二
+
+    \onslide<2-> Kruskal重构树一般解决任意两点上边权的最大最小值
+
+    \onslide<3-> 在做Kruskal算法的时候，每次连接两个不在同一连通块的点，就将这两个点的根与一个新建的节点各连上一条边，新建的节点权值等于这条边的权值
+
+    \onslide<4-> 这样建出一棵树就有很多方法解决问题了
+  \end{frame}
+
+  \begin{frame}{Day1 T3 货车运输}
+    \onslide<1-> 方法三
+
+    \onslide<2-> 可持久化并查集...
+
+    \onslide<3-> 方便维护的话套个set
+  \end{frame}
+
+  \section{Day2 T1}
+
+  \begin{frame}{Day2 T1 积木大赛}
+    \onslide<1-> 需要搭建一座宽度为$n$的大厦，大厦可以看做由$n$块宽度为1的积木组成，第$i$块积木最终高度需要$h_i$，每次可以将任意$[l,r]$区间的积木高度加1，求从所有为积木为空到目标状态最小需要几次操作
+    
+    \onslide<2-> $100'$满足$n\leq 10^5$
+  \end{frame}
+
+  \begin{frame}{Day2 T1 积木大赛}
+    \onslide<1-> 这道题不要多想，Day2 T1不可能很难的，数据结构、cdq分治都不需要的(虽然还是可以做)，直接想贪心\&差分\&模拟就好了
+    
+    \onslide<2-> 我一开始想到的是差分，答案其实就是差分数组中的正值之和
+
+    \onslide<3-> 感性理解一下，每次可以将差分数组中一个数+1，一个数-1，那么每个正数都是要进行操作的
+
+    \onslide<4-> 这个差分方法可以拓展一下，发现按照差分思路只有$h_i>h_{i-1}$的时候有贡献，加上就可以了
+  \end{frame}
+
+  \begin{frame}{Day2 T1 积木大赛} 
+    \onslide<1-> 用贪心的思路思考也可以
+    
+    \onslide<2-> 假设当前考虑到第$i$个位置，前$1\rightarrow i-1$都已经摆放完毕，有两种情况
+
+    \onslide<3-> 第一种:$h_{i-1}\geq h_i$时如果摆放好了$i-1$位置，那么$i$位置一定可以摆好
+
+    \onslide<4-> 第二种:$h_{i-1}<h_i$时答案显然需要加上$h_i-h_{i-1}$
+  \end{frame}
+
+  \begin{frame}{Day2 T1 积木大赛} 
+    \onslide<1-> 思考一下模拟
+    
+    \onslide<2-> 假设当前考虑区间$[l,r]$，我们将这个区间减去区间最小值，然后把每个变为0的分开继续模拟
+
+    \onslide<3-> 为了保证复杂度正确，区间最小值用线段树维护一下
+
+    \onslide<4-> 也可以用并查集来模拟
+  \end{frame}
+
+  \section{Day2 T2}
+
+  \begin{frame}{Day2 T2 花匠} 
+    \onslide<1-> 有$n$株花，花的高度为$h_i$，移走一部分花后剩下的花高度依次为$g_1,g_2...g_m$，希望移走最少的花，满足$g_{2i}>g_{2i-1},g_{2i}>g_{2i+1}>$或$g_{2i}<g_{2i-1},g_{2i}<g_{2i+1}$
+
+    \onslide<2-> $100'$满足$n\leq 10^5$
+  \end{frame}
+
+  \begin{frame}{Day2 T2 花匠} 
+    \onslide<1-> 终于遇见了一道DP题，令$dp[i][0]$表示$i$为波峰的最大答案，$dp[i][1]$表示$i$为波谷的最大答案
+
+    \onslide<2-> 转移方程很显然:$dp[i][0]=max_{a[j]<a[i]}(dp[j][1]+1)$，$dp[i][1]=max_{a[j]>a[i]}(dp[j][0]+1)$
+
+    \onslide<3-> 权值线段树维护一下区间最值就可以$O(log_2 n)$转移了，注意要离散化或动态开点，不然会爆空间
+
+    \onslide<4-> 但我总觉得$O(n)$的DP和贪心有点迷，不过$O(nlog_2n)$的DP还是很好想的
+  \end{frame}
+
+  \section{Day2 T3}
+
+  \begin{frame}{Day2 T3 华容道} 
+    \onslide<1-> 有一个$n\times m$的棋盘，有且只有一个格子是空的，其余$n\times m-1$个格子上都有一个$1\times 1$的棋子，其中有一部分棋子是固定的，而另一部分棋子可以移动，求将一个棋子移动到目标位置的最小步数，有多组询问
+
+    \onslide<2-> $100'$满足$1\leq n,m\leq 30,q\leq 500$
+  \end{frame}
+
+  \begin{frame}{Day2 T3 华容道} 
+    \onslide<1-> 好吧A*是可以过的，估价函数可以写成目标棋子到目标位置的距离
+
+    \onslide<2-> 这种题的一种套路是先将空白格子移动到目标棋子的位置，然后两个捆绑着移动
+
+    \onslide<3-> 将空白格子移动到目标棋子的4个方向可以直接BFS找出，这部分比较简单
+
+    \onslide<4-> 设$dis[i][j][k]$表示目标棋子在$(i,j)$，空白格子在$(i,j)$的$k$方向的最少移动次数($k$表示4个方向)
+    
+    \onslide<5-> 因为棋盘是不会变化的，所以可以预处理出所有从$i,j,k$可以移动到的状态，对每一个询问跑Dijkstra就可以了
+  \end{frame}
+
+  \section{试题分析}
+
+  \begin{frame}{试题分析} 
+    \onslide<1-> 2013年考察的知识点有:数论(快速幂)；树状数组或归并排序求逆序对；最大生成树；LCA和倍增预处理；差分；贪心；线段树优化DP；搜索优化和最短路
+
+    \onslide<2-> 这一年考察的还是十分全面的，信息竞赛经常使用到的算法都有所涉猎，思维难度和代码难度适中，是近几年来不可多得的优秀试题(我说的就是18年)
+
+    \onslide<3-> 暴力分人均360分
+  \end{frame}
+
+  \begin{frame}{试题分析} 
+    \onslide<1-> Day1出题方向主要是对结论的考察，只要想到这道题的结论就可以快速的想清整个题目的思路并完成代码编写
+    
+    \onslide<2-> 所以相信:人有多大胆，地有多大产!!!
+
+    \onslide<3-> Day2反而让人很容易忽略简洁的写法，T1的贪心其实很明显却很容易忽略，T2的贪心写法考场上有人敢写么?T3的思路实在是太巧妙很难想到，大部分人还是会选择搜索不会深思吧
+
+    \onslide<4-> 而且这套试题的套路分布非常密集，如果富有经验的选手应该可以快速的想明白各个题目考察的知识点
+  \end{frame}
+
+  \begin{frame}{试题分析}
+    \onslide<1-> 讲一下各个题目易错点:
+
+    \onslide<2-> Day1 T1注意下标从0开始可以直接取模，不要多想
+
+    \onslide<3-> Day1 T2一定要记得离散化
+
+    \onslide<4-> Day1 T3并查集要路径压缩，倍增优化注意细节
+
+    \onslide<5-> Day2 T2权值线段树注意值域从0开始，怕被卡常也可以离散化一下
+
+    \onslide<6-> Day2 T3最短路千万不要写SPFA，不要问我为什么
+  \end{frame}
+
+  \section{考试策略}
+
+  \begin{frame}{考试策略 Day1} 
+    \onslide<1-> 30min读题
+
+    \onslide<2-> T1直接开，30min快速完成
+
+    \onslide<3-> T2,T3都需要一定的思维时间，可以先各花费20min把暴力写完
+
+    \onslide<4-> T2,T3正解慢慢肝
+  \end{frame}
+
+  \begin{frame}{考试策略 Day2} 
+    \onslide<1-> 30min读题
+
+    \onslide<2-> T1如果无法在30min中想到贪心先跳过
+
+    \onslide<3-> T2的DP非常明显，如果不敢写贪心的话50min快速调完线段树优化DP问题不大
+
+    \onslide<4-> T3先写个爆搜再看情况想T1或T3
+  \end{frame}
+
+  \section{Thanks}
+
+\end{document}

@@ -1,0 +1,254 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{multirow}
+\usepackage{color}
+\usepackage{mathtools}
+\pagestyle{plain}
+\begin{document}
+\title{弱省省选模拟赛}
+\author{}
+\date{\today}
+\maketitle
+\begin{table}[!htbp]
+	\centering
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		题目名称&Easiest&Medium&\\
+		\hline
+		题目类型&传统型&传统型&传统型\\
+		\hline
+		目录&easiest&medium&\\
+		\hline
+		可执行文件名&easiest&medium&\\
+		\hline
+		输入文件名&easiest.in&medium.in&.in\\
+		\hline
+		输出文件名&easiest.out&medium.out&.out\\
+		\hline
+		每个测试点时限&2.0s&2.0s&1.0s\\
+		\hline
+		内存限制&512MB&512MB&512MB\\
+		\hline
+		测试点/包数目&6&20&20\\
+		\hline
+		测试点是否等分&是&是&是\\
+		\hline
+	\end{tabular}
+\end{table}
+提交源程序文件名
+\begin{table}[!htbp]
+	\centering
+	\begin{tabular}{|ccc|c|c|c|}
+		\hline
+		对于&C++&语言&easiest.cpp&medium.cpp&.cpp\\
+		\hline
+		对于&C&语言&easiest.c&medium.c&.c\\
+		\hline
+	\end{tabular}
+\end{table}
+注意事项：
+\begin{enumerate}
+	\item 文件名（包括程序名和输入输出文件名）必须使用英文小写。
+	\item 结果比较方式为忽略行末空格、文末回车后的全文比较。
+	\item C/C++ 中函数 main() 的返回值类型必须是 int，值为 0。
+	\item 编译选项为-O2 -std=c++11
+	\item 如果对题目有疑问（如样例出锅），可以找出题人
+	\item \textbf{考试时间8:00至13:00}
+\end{enumerate}
+\clearpage
+
+
+
+\begin{center}
+	\large{Easiest}
+\end{center}
+\paragraph{题目描述}
+\paragraph{}给定长度$n$，下标$0\sim n-1$，和两个数组$l_i,r_i$，求$0\sim n-1$的排列$p_i$个数，满足$\forall i,p_i\in[l_i,r_i]$
+\paragraph{}满足$n$是$2$的幂，$l,r$单调不递减，且存在二元组$(x,y)$满足$\forall j\in[0,y],j\in[l_x,r_x]$且$\forall j\in[x,n),y\in[l_j,r_j]$
+\paragraph{}本题中，认为$[c,c]$为$\{c\}$
+\paragraph{输入格式}
+\paragraph{}从\emph{easiest.in}中读入数据
+\begin{itemize}
+	\item 第一行一个整数$n$
+	\item 二到三行各$n$个整数，表示$l_i,r_i$
+\end{itemize}
+\paragraph{输出格式}
+\paragraph{}输出到\emph{easiest.out}中
+\begin{itemize}
+	\item $ans$，即排列数，对$998244353$取模
+\end{itemize}
+\clearpage
+\paragraph{样例1输入}
+\begin{lstlisting}
+3
+0 2
+0 2
+1 2
+\end{lstlisting}
+\paragraph{样例1输出}
+\begin{lstlisting}
+4
+\end{lstlisting}
+\paragraph{样例1解释}
+\paragraph{}$[0,1,2],[0,2,1],[1,0,2],[2,0,1]$
+\paragraph{样例2}
+\paragraph{}见选手文件夹本题目录下\emph{/2.in}与\emph{/2.out}
+\paragraph{样例3}
+\paragraph{}见选手文件夹本题目录下\emph{/3.in}与\emph{/3.out}
+\paragraph{样例4}
+\paragraph{}见选手文件夹本题目录下\emph{/4.in}与\emph{/4.out}
+\paragraph{样例5}
+\paragraph{}见选手文件夹本题目录下\emph{/5.in}与\emph{/5.out}
+\clearpage
+\paragraph{子任务}
+\paragraph{}所有子任务满足：$n\in[1,300],0\le l_i,r_i< n$
+\paragraph{}
+\begin{center}
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		Subtask编号&分值&性质\\
+		\hline
+		1&1&$l_i=0,r_i=n-1$\\
+		\hline
+		2&2&$n\le 10$\\
+		\hline
+		3&4&$l_i=0$或$r_i=n-1$\\
+		\hline
+		4&8&$n\le 20$\\
+		\hline
+		5&16&$n\le 50$\\
+		\hline
+		6&69&\\
+		\hline
+	\end{tabular}	
+\end{center}
+\clearpage
+
+
+
+\begin{center}
+	\large{Medium}
+\end{center}
+\paragraph{题目背景}
+\begin{center}
+	\color[rgb]{0.5,0.5,0.5}\emph{——zzy喜欢}
+\end{center}
+\paragraph{题目描述}
+\paragraph{}zzy在他自己身上发现了一种『不会搞颓』的基因，这当且仅当同时存在两个才会表现，这里用\underline{Aa}表示这两种基因型，即\underline{aa}表现出『不会搞颓』
+\paragraph{}zzy为了研究，找到了一个家族图谱，它有一个参数$n$，具体为（可以参考样例解释）：
+\begin{itemize}
+	\item 共$2n+2$代，编号为$[0,2n+1]$
+	\item 当$i\in[0,n]$时，第$i$代有$2^{i+1}$人，否则有$2^{2n+1-i}$人
+	\item 若第$i$代有$2^j$人，则依次编号$[0,2^j)$，$i$代$j$号标记为$(i,j)$
+	\item 当$i\in[0,n)$时，对于$k\in[0,2^{j-1})$，有$(i,2k)$与$(i,2k+1)$生出$(i+1,4k),(i+1,4k+1),(i+1,4k+2),(i+1,4k+3)$
+	\item 否则，$(i,2k)$与$(i,2k+1)$生出$(i+1,k)$
+\end{itemize}
+\paragraph{}实验表明：$(0,0),(0,1)$基因型为\underline{Aa}，且观察到有$m$个互相没有祖先关系的位于$0\sim n+1$代的人表现为『不会搞颓』，\textbf{但不知道其他人是否有此表现}
+\paragraph{}zzy想知道某$q$个位于$n+2\sim 2n+1$代的人各个基因型的概率，他一眼就秒了但不想码代码，于是他命令你帮他解决
+\paragraph{输入格式}
+\paragraph{}从\emph{medium.in}中读入数据
+\begin{itemize}
+	\item 第一行三个整数$n,m,q$
+	\item 第二行$2m$个整数，表示确定为\underline{aa}的人编号，以$(a,b)$的形式给出
+	\item 第三行$2q$个整数，表示希望你计算的人编号，以$(c,d)$的形式给出
+\end{itemize}
+\paragraph{输出格式}
+\paragraph{}输出到\emph{medium.out}中
+\begin{itemize}
+	\item $q$行每行三个整数，表示\underline{AA,Aa,aa}的概率，对$998244353$取模
+\end{itemize}
+\paragraph{样例1输入}
+\begin{lstlisting}
+2 1 1
+(2,1)
+(4,0)
+\end{lstlisting}
+\paragraph{样例1输出}
+\begin{lstlisting}
+720954255 55458020 221832079
+\end{lstlisting}
+\paragraph{样例1解释}
+\paragraph{}概率为$\dfrac{1}{18},\dfrac{7}{18},\dfrac{5}{9}$
+\clearpage
+\paragraph{样例2}
+\paragraph{}见选手文件夹下\emph{/2.in}与\emph{/2.out}
+\paragraph{样例3}
+\paragraph{}见选手文件夹下\emph{/3.in}与\emph{/3.out}
+\paragraph{样例4}
+\paragraph{}见选手文件夹下\emph{/4.in}与\emph{/4.out}
+\paragraph{样例5}
+\paragraph{}见选手文件夹下\emph{/5.in}与\emph{/5.out}
+\paragraph{子任务}
+\paragraph{}$n\le 60,m\le 100,q\le 100$，下面$a,b,c,d$意义见输入格式，保证$a,b,c,d$合法
+\begin{center}
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		Subtask编号&分值&性质\\
+		\hline
+		1&1&$n=1$\\
+		\hline
+		2&2&$n=2$\\
+		\hline
+		3&3&$m=1$\\
+		\hline
+		4&3&$a\le 1$\\
+		\hline
+		5&3&$a\le 2$\\
+		\hline
+		6&6&$m\le 5$\\
+		\hline
+		7&6&$m\le 10$\\
+		\hline
+		8&6&$m\le 20$\\
+		\hline
+		9&6&$n\le 20$\\
+		\hline
+		10&64&\\
+		\hline
+	\end{tabular}	
+\end{center}
+\clearpage
+
+
+
+\begin{center}
+	\large{()}
+\end{center}
+\paragraph{题目描述}
+\paragraph{}给定一个长度为$m$数组$a$和一棵$n$个点的树，树上每个点$i$有点权$b_i$，满足$n\leq m$，特别的，定义$c_i$为树上以$i$的子树的最大值
+\paragraph{}若一个数$k(1\leq k\leq m-n+1)$合法，当且仅当有一个长度为$n$的排列$p$，有$a_{k+i-1}+c_{p_i}>=h(1\leq i\leq n)$，求合法的$k$的个数
+\paragraph{}因为好像太简单，所以有$q$个树上权值修改，每次修改后需要输出合法$k$的个数
+\paragraph{输入格式}
+\paragraph{}从\emph{.in}中读入数据
+\begin{itemize}
+	\item 
+	\item 
+\end{itemize}
+\paragraph{输出格式}
+\paragraph{}输出到\emph{.out}中
+\begin{itemize}
+	\item 
+\end{itemize}
+\clearpage
+\paragraph{样例1输入}
+\begin{lstlisting}
+\end{lstlisting}
+\paragraph{样例1输出}
+\begin{lstlisting}
+\end{lstlisting}
+\paragraph{样例1解释}
+\paragraph{}
+\paragraph{样例2}
+\paragraph{}见选手文件夹下\emph{/2.in}与\emph{/2.out}
+\paragraph{样例3}
+\paragraph{}见选手文件夹下\emph{/3.in}与\emph{/3.out}
+\paragraph{样例4}
+\paragraph{}见选手文件夹下\emph{/4.in}与\emph{/4.out}
+\paragraph{样例5}
+\paragraph{}见选手文件夹下\emph{/5.in}与\emph{/5.out}
+\clearpage
+\paragraph{子任务}
+\paragraph{}
+\end{document}

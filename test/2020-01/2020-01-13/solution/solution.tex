@@ -1,0 +1,248 @@
+\documentclass{beamer}
+
+\usepackage{xeCJK}
+
+\setCJKmainfont[BoldFont = {黑体}]{宋体}
+\setlength{\parindent}{22pt}
+
+\usetheme{CambridgeUS}
+\usecolortheme{dolphin}
+\usefonttheme{serif}
+
+\title{Day1-题解}
+\author{}
+\institute{}
+
+\begin{document}
+
+\begin{frame}
+	\maketitle
+\end{frame}
+
+\section{T1}
+\begin{frame}{小D的奶牛}
+
+	\par 题意：给一个$N$个点的图，问图中有多少个团；
+
+	\par $N \leq 50$
+
+\end{frame}
+
+\begin{frame}{测试点1-5}
+
+	\par 测试点1： 暴力；
+
+	\pause
+
+	\par 测试点2,3：状压dp；
+
+	\pause
+
+	\par 测试点4,5：团的大小$\leq 21$:
+
+	\par 枚举团上编号最小的点，然后同上一部分；
+
+\end{frame}
+
+\begin{frame}{测试点6-10}
+
+	\par 测试点6-10：考虑Meet in the middle：
+
+	\pause 
+
+	\par 先考虑前$N / 2$个点，求出每种取点方式是否能形成一个团；
+
+	\par 再考虑后$N / 2$个点，求出每种取点方式有多少个子集是一个团；
+
+	\pause
+
+	\par 枚举每个前部分的点的选取方式，然后求出后半部分有哪些点和它们都有边；
+
+	\par 然后后半部分能取的集合的数量就是，后半部分那些点的子集中形成的团的数量；
+
+	\pause
+
+	\par $O(N * 2 ^ (N / 2))$
+
+\end{frame}
+
+\section{T2}
+
+\begin{frame}{小D的交通}
+
+	\par 题意：问是否存在长度为$N$的连续整数数列，在不互质的数连边后构成的图联通；
+
+	\par $N \leq 100000$
+
+\end{frame}
+
+\begin{frame}{测试点1-优秀的观察}
+
+	\par 当$N$比较小的时候应该无解。
+
+	\par 经过计算（暴力）得出，$N \leq 16$时无解；
+
+	\pause
+
+	\par 所以输出"No solution"可以通过测试点1；
+
+\end{frame}
+
+\begin{frame}{测试点2-3-爆搜}
+
+	\par 有且只有$< N$的质数是有用的；
+
+	\pause
+
+	\par 爆搜序列的开头的数$A$在这些质数下的余数分别是多少；		
+
+	\pause
+
+	\par 而当一个质数$ > N / 2$时，它只能在图中贡献一条边；
+
+	\pause
+
+	\par 又由于所有$\%2 = 0$的数肯定连在一起；
+
+	\par 所以他只能连通一个点，对于后半部分质数，枚举那个点就行了；
+
+\end{frame}
+
+\begin{frame}{测试点4-5-爆搜剪枝}
+
+	\par 这一部分比较玄学；
+
+	\pause
+
+	\par 由于所有偶数点是通过$2$互相连通的，只要考虑奇数点如何连向偶数点；
+
+	\par 不难发现，当质数$> N / 2$时，后面的质数越大越没用，可以贪心连边；
+
+	\pause
+
+	\par 同时，经过最开始的一些比较小的质数之后，大部分奇数点已经和偶数点连通了；
+
+	\par 所以对于那些不大不小的质数，其实决策数并不多，且尽量在枚举时优先枚举贡献较大的连法；
+
+	\pause
+
+	\par 视实现优劣可以得到$30-50+$分；
+
+\end{frame}
+
+\begin{frame}{测试点6-10-一个小清新构造}
+
+	\par 写过暴力的都知道，当$N$不小时，它跑得很快，且总是有解（？）；
+
+	\pause
+
+	\par 所以我们尝试构造一组解；
+
+	\pause
+
+	\par 如果我们构造一个以序列开头为核心的解，即在它这个位置的数是所有质数的倍数；
+
+	\pause
+
+	\par 我们发现除了第二个节点之外的点都连通了；
+
+	\pause
+
+	\par 如果我们构造一个以序列中心为核心的解，那么接下来要解决的问题就是和它相邻的点；
+
+	\par 我们用最大的小于$N / 2$的质数来使这两个点与其他点连通；
+
+	\pause
+
+	\par 但这样由于核心少用了两个数，可能会导致有一些其他的点不连通；
+
+	\pause
+
+	\par 不要慌，它们都在最边上，且大于$N / 2$的质数我们还没有使用，随便连一连就好；
+
+	\pause
+
+	\par 所以我们就知道了开头模每个质数的余数，最后用中国剩余定理还原答案即可；
+
+\end{frame}
+
+\section{T3}
+\begin{frame}{小D的远航}
+
+	\par 题意：一个对称的凸的连通块，求它整体移出迷宫的最小步数；
+
+	\par $N \leq 2000$
+
+\end{frame}
+
+\begin{frame}{测试点1-4}
+
+	\par $N \leq 400$；
+
+	\pause
+
+	\par $O(N)$判断一个位置是否能放下船；
+
+	\pause
+
+	\par bfs求出出地图的最短路；
+
+	\par 总复杂度$O(N^3)$
+
+\end{frame}
+
+\begin{frame}{测试点5-8}
+
+	\par 船是矩形或菱形；
+
+	\pause
+
+	\par 二维前缀和，$O(N^2)$；
+
+\end{frame}
+
+\begin{frame}{测试点9-12+}
+
+	\par 数据比较水（虽然所有的点好像都挺水的）；
+
+	\pause
+
+	\par 枚举边界线之类的乱搞；
+
+\end{frame}
+
+\begin{frame}{测试点13-20}
+
+	\par 为了方便描述，在接下来的讨论中，我们认为船的对称轴（记作L）平行于Y轴；
+
+	\pause
+
+	\par 障碍我们一行一行讨论，对于每一行，我们把所有的障碍按顺序排好。
+
+	\pause
+
+	\par 接下来我们一列一列考虑有哪些位置可以放船，再用每一行的障碍去限制；
+
+	\pause
+
+	\par 假设考虑到第$i$列，对船的限制最紧的应该是最靠近第$i$列的障碍；
+
+	\par 这个可以从船的凸性中轻松推出；
+
+	\pause
+
+	\par 所以我们只要考虑$O(N)$个障碍对这一列的影响；
+
+	\par 求出这些障碍后，就可以$O(N)$时间内得到一列的所有的能放船的位置；
+
+	\pause
+
+	\par 关于求靠这一列最近的障碍，在枚举列的时候顺便更新一下；
+
+	\pause
+
+	\par 总的复杂度是$O(N^2)$的，细节比较复杂；
+
+\end{frame}
+
+\end{document}

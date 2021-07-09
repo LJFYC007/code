@@ -1,0 +1,10 @@
+test filter=lfs diff=lfs merge=lfs -text
+YaliOj filter=lfs diff=lfs merge=lfs -text
+Luogu filter=lfs diff=lfs merge=lfs -text
+others filter=lfs diff=lfs merge=lfs -text
+Prob filter=lfs diff=lfs merge=lfs -text
+README.md filter=lfs diff=lfs merge=lfs -text
+task filter=lfs diff=lfs merge=lfs -text
+template filter=lfs diff=lfs merge=lfs -text
+Prob/test13/data/dog/ filter=lfs diff=lfs merge=lfs -text
+Prob/test13/data/ filter=lfs diff=lfs merge=lfs -text

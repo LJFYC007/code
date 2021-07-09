@@ -1,0 +1,6 @@
+5
+restaurant1-([1-5]).* 10
+restaurant2-([1-5]).* 10
+restaurant3-([1-5]).* 10
+restaurant4-([1-5]).* 30
+restaurant5-([1-5]).* 40

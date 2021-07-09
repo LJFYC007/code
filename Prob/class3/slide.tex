@@ -1,0 +1,84 @@
+\documentclass[9pt]{beamer}
+\usepackage{xeCJK}
+\setsansfont{Ubuntu Mono}
+\setCJKmonofont{AR PL UKai CN}
+\usetheme{metropolis}
+\title{水题选讲}
+\date{\today}
+\author{ljfcnyali}
+\begin{document}
+
+  \maketitle
+
+  \begin{frame}{CF611H}
+    \par 有一棵 $n$ 个节点的树，节点编号为 $1 \sim n$，记录这棵树的方式是记录下每条边连接的两点的编号。现在，你不知道这些编号具体是多少，你只知道它们在十进制下的位数。请你构造出一棵满足要求的树并输出方案，或判断没有满足要求的树。
+    \par $n \le 2 \times 10^5$
+  \end{frame}
+  
+  \begin{frame}{CF611H}
+    \onslide<1-> 首先发现我们只关心两个编号之间的边的数量，所以记 $a_{i,j}$ 表示 $i$ 个问号的边与 $j$ 个问号的边的数量，令 $m$ 表示 $n$ 的位数。
+
+    \onslide<2-> 下面给出一种构造方案，先钦定 $m$ 个黑点，并且这些黑点所代表的问号数不同，再将这 $m$ 个黑点间连 $m-1$ 条边组成一棵树，剩下的所有点均只往黑点连边
+
+    \onslide<3-> 这里给出一个简要证明，即证明任意一棵树一定可以转化成这样的形式
+
+    \onslide<4-> 首先钦定一个问号数为 $1$ 的黑点作为根，那么所有与其相连的问号数为 $1$ 的点可以缩成当前黑点，接下来在所有与当前黑点有边的点中任意挑选一个问号数为 $2$ 的点，并重复缩点的过程
+
+    \onslide<5-> 那么最后你一定可以找到一个包含所有问号的黑点连通块，这样将所有剩下的白点与白点间连边断掉，一定可以找到一个黑点接上
+  \end{frame}
+
+  \begin{frame}{CF611H}
+    \onslide<1-> 这样，问题就变成了枚举一个 $m$ 个黑点的树，再将剩下的所有边往黑点上连
+
+    \onslide<2-> 考虑如何验证一个树是否合法，首先将树边和相同问号的边减去得到一个 $a_{i,j}$ 矩阵，然后我们有一些限制条件：
+
+    \onslide<3-> 对于两种问号数的点 $x,y$ ，一定有 $x$ 向 $y$ 的黑点数加 $y$ 向 $x$ 的黑点数等于 $a_{x, y}$ 
+
+    \onslide<4-> 还有每个问号的点数有一个限制，所以可以做一个二分图多重匹配验证是否有解
+
+    \onslide<5-> 二分图左侧 $\frac{m\times (m-1)}{2}$ 个点，表示每种边个数，右侧为 $m$ 个点，表示每种点个数，左侧 $x,y$ 所对应的边向右边 $x,y$ 分别连 $INF$ ，判断是否满流并输出方案
+  \end{frame}
+
+  \begin{frame}{PKUWC2020D2T3 火山哥与最小割}
+    \par 给定一个无向图，无向图上再连接 $n$ 条边，即 $i\rightarrow i \% n + 1$，边权为 $10^9$
+    \par 设 $f(u,v)$ 表示源点为 $u$ 汇点为 $v$ 的图的最小割，求 $\sum_u\sum_vf(u,v)$
+    \par 满足 $n\leq 7\times 10^3,m\leq 10^5,w\leq10^4$
+  \end{frame}
+
+  \begin{frame}{PKUWC2020D2T3 火山哥与最小割}
+    \onslide<1-> 首先介绍一个算法:最小割树，即建出一棵带边权的树满足 $f(u,v)$ 等于 $u\rightarrow v$ 路径上边权最小值 
+
+    \onslide<2-> 建立最小割树流程为从 $n$ 个点的点集中随机两个点 $u,v$ ，求出 $f(u,v)$ 并在最小割树上连一条 $u$ 到 $v$ 的边，边权为 $f(u,v)$ ，接下来点集由这个最小割被划分成了两个没有连边的子集，递归建边
+
+    \onslide<3-> 定理一: 对于最小割树上一条 $u,v$ 的连边，记 $p$ 为 $u$ 子树中的一个点，$q$ 为 $v$ 子树中一个点，有 $f(u,v)\geq f(p, q)$
+
+    \onslide<4-> 考虑反证法，设 $f(u,v)<f(p,q)$ 表示当 $u,v$ 两个点无法联通时，$p,q$ 用 $f(u,v)$ 的代价不能割开，很明显与已知条件矛盾
+  \end{frame}
+
+  \begin{frame}{PKUWC2020D2T3 火山哥与最小割}
+    \onslide<1-> 定理二: 对于任意三个点 $x,y,z$ 有 $f(x,y)\geq min(f(y,z),f(x,z))$ 
+    
+    \onslide<2-> 画图不易，手绘证明
+
+    \onslide<3-> 推论一：对于两点 $u,v$ 有 $f(u,v)\geq min(f(u,w_1),f(w_1,w_2)\dots f(w_k,v))$ 其中 $w_i$ 组成 $u\rightarrow v$ 的一条路径
+
+    \onslide<4-> 由定理二易证
+
+    \onslide<5-> 推论二: 对于两点 $u,v$ 设 $f(x,y)=min(f(u,w_1),f(w_1,w_2)\dots f(w_k,v))$，有 $f(u,v)=f(x,y)$
+
+    \onslide<6-> 因为由推论一有 $f(u,v)\geq f(x,y)$ 再因为定理一有 $f(u,v)\leq (x,y)$ 所以 $f(u,v)=f(X,y)$，这就是最小割树的性质
+  \end{frame}
+
+  \begin{frame}{PKUWC2020D2T3 火山哥与最小割}
+    \onslide<1-> 观察这道题，如果我们建出一棵最小割树，就可以解决该题，而最小割树需要做 $n$ 次最小割，则问题转化为 $O(n)$ 的求出这个图的最小割
+
+    \onslide<2-> 首先我们钦定随机出来的 $u,v$ 两点编号为 $i,i+1$ ，则一定要断掉环上 $i,i+1$ 的一条边和某条 $j,j+1$
+
+    \onslide<3-> 因为环的限制保证了 $i+1\rightarrow j$ 都属于一个连通块，剩下的属于另一个连通块，那么我们就只需要断掉这两个连通块两两之间的连边即可
+
+    \onslide<4-> 具体的把边丢到邻接矩阵上，做一个前缀和就可以矩阵求和了
+  \end{frame}
+
+  \section{Thanks}
+
+\end{document}

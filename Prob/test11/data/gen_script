@@ -1,0 +1,23 @@
+./gen 1000 0 > Subtask1/justice1.in
+./std < Subtask1/justice1.in > Subtask1/justice1.out
+
+./gen 1000 1 > Subtask1/justice2.in
+./std < Subtask1/justice2.in > Subtask1/justice2.out
+
+./gen 1000 3 > Subtask1/justice3.in
+./std < Subtask1/justice3.in > Subtask1/justice3.out
+
+./gen 200000 0 > Subtask2/justice1.in
+./std < Subtask2/justice1.in > Subtask2/justice1.out
+
+./gen 200000 1 > Subtask2/justice2.in
+./std < Subtask2/justice2.in > Subtask2/justice2.out
+
+./gen 200000 2 > Subtask2/justice3.in
+./std < Subtask2/justice3.in > Subtask2/justice3.out
+
+./gen 200000 3 > Subtask2/justice4.in
+./std < Subtask2/justice4.in > Subtask2/justice4.out
+
+./gen 200000 3 > Subtask2/justice5.in
+./std < Subtask2/justice5.in > Subtask2/justice5.out

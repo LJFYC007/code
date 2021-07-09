@@ -1,0 +1,53 @@
+% 还真有人这么闲来看伪代码的 LaTeX？
+\documentclass {article}
+\usepackage [top=1cm, bottom=1cm, left=1cm, right=1cm, landscape] {geometry}  
+\usepackage {amsmath}
+\usepackage {algorithm, algorithmicx, algpseudocode}  
+
+\begin{document}
+	\begin{algorithmic}[1]
+		\State \textbf{def} $m, b, p, q$ : \texttt{int32}
+		\State \textbf{def} $gen$ : \texttt{mt19937\_64}
+		\State \textbf{def} $seed$ : \texttt{uint64}
+		\State
+		\Function {Next\_int} {{}}
+			\State $seed \gets seed \oplus seed \gg 12$
+			\State $seed \gets seed \oplus seed \ll 25$
+			\State $seed \gets seed \oplus seed \gg 27$
+			\State \Return $seed$
+		\EndFunction
+		\State
+		\Function {Rand\_int} {$l, r$}
+			\State \Return \Call {Next\_int} {{}} $\bmod \left( r - l + 1 \right) + l$
+		\EndFunction
+		\State
+		\Procedure {Generate} {{}}
+			\State Randomize the Mersenne Twister generator $gen$
+				\Comment {like \texttt{gen.seed(time(NULL));} in C++}
+			\State $seed \gets$ Generate a pseudorandom number from $gen$
+				\Comment {like \texttt{seed = gen();} in C++}
+			\Repeat
+				\State $m \gets$ \Call {uniform\_int\_distribution} {$3, 2^{63} - 1, gen$}
+				\Comment {like \texttt{m = std::uniform\_int\_distribution<uint64\_t>(3, LLONG\_MAX)(gen);} in C++}
+			\Until {\Call {Is\_odd\_prime} {$m$}}
+			\For {$i \gets 1$ \textbf{to} $10$}
+				\State \Call {Next\_int} {{}}
+			\EndFor
+			\State $b \gets$ \Call {Rand\_int} {$1, m - 1$}
+			\State $p \gets$ \Call {Rand\_int} {$1, m - 1$}
+			\State $q \gets$ \Call {Rand\_int} {$1, m - 1$}
+		\EndProcedure
+		\State
+		\Function {w} {$c$}
+			\If {$c = \texttt{(}$}
+				\State \Return $p$
+			\Else
+				\State \Return $q$
+			\EndIf
+		\EndFunction
+		\State
+		\Function {Hash} {$s$}
+			\State \Return $\left( \sum_{i=1}^{\left| s \right|} \Call {w} {s_i} \cdot b^{i-1} \right) \bmod m$
+		\EndFunction
+	\end{algorithmic}
+\end{document}

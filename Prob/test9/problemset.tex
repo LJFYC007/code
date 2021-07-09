@@ -1,0 +1,192 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{multirow}
+\usepackage{color}
+\usepackage{mathtools}
+\pagestyle{plain}
+\begin{document}
+\title{NOIP提高组Day2}
+\author{}
+\date{\today}
+\maketitle
+\begin{table}[!htbp]
+	\centering
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		题目名称&Easiest&Tree&Horseless\\
+		\hline
+		题目类型&传统型&传统型&传统型\\
+		\hline
+		目录&easiest&tree&horseless\\
+		\hline
+		可执行文件名&easiest&tree&horseless\\
+		\hline
+		输入文件名&easiest.in&tree.in&horseless.in\\
+		\hline
+		输出文件名&easiest.out&tree.out&horseless.out\\
+		\hline
+		每个测试点时限&1.0s&1.0s&6.0s\\
+		\hline
+		内存限制&512MB&512MB&512MB\\
+		\hline
+		测试点/包数目&1&5&5\\
+		\hline
+		测试点是否等分&是&是&是\\
+		\hline
+	\end{tabular}
+\end{table}
+提交源程序文件名
+\begin{table}[!htbp]
+	\centering
+	\begin{tabular}{|ccc|c|c|c|}
+		\hline
+		对于&C++&语言&easiest.cpp&tree.cpp&horseless.cpp\\
+		\hline
+		对于&C&语言&easiest.c&tree.c&horseless.c\\
+		\hline
+	\end{tabular}
+\end{table}
+注意事项：
+\begin{enumerate}
+	\item 文件名（包括程序名和输入输出文件名）必须使用英文小写。
+	\item 结果比较方式为忽略行末空格、文末回车后的全文比较。
+	\item C/C++ 中函数 main() 的返回值类型必须是 int，值为 0。
+	\item 编译选项为-O2 -std=c++11
+	\item 如果对题目有疑问（如样例出锅），可以找出题人
+\end{enumerate}
+\clearpage
+
+
+\begin{center}
+	\large{Easiest}
+\end{center}
+\paragraph{题目描述}
+\paragraph{}给定一个整数$n$，求$n$的阶乘，对$99$取模
+\paragraph{输入格式}
+\paragraph{}从\emph{easiest.in}中读入数据
+\begin{itemize}
+\item 一行一个整数$n$
+\end{itemize}
+\paragraph{输出格式}
+\paragraph{}输出到\emph{easiest.out}中
+\begin{itemize}
+	\item 一行一个整数表示答案
+\end{itemize}
+\paragraph{样例输入}
+\begin{lstlisting}
+2
+\end{lstlisting}
+\paragraph{样例输出}
+\begin{lstlisting}
+2
+\end{lstlisting}
+\paragraph{子任务}
+\paragraph{}对于$50\%$的数据，满足$n\le 10$
+\paragraph{}对于$100\%$的数据，满足$n\le 10^{18}$
+
+\clearpage
+
+\begin{center}
+	\large{Tree}
+\end{center}
+\paragraph{题目描述}
+\paragraph{}给定一棵$n$个点的以$1$为根的有根树，现在有$m$种颜色，你需要对每个节点染色。求本质不同的染色数，对$998244353$取模。
+\paragraph{}本质相同定义为：忽略节点编号后(根不变)，两棵树同构(颜色＋形态)
+\paragraph{输入格式}
+\paragraph{}从\emph{tree.in}中读入数据
+\begin{itemize}
+\item 第一行两个整数$n,m$
+\item 接下来$n-1$行每行两个整数$u,v$表示$u$与$v$有一条边
+\end{itemize}
+\paragraph{输出格式}
+\paragraph{}输出到\emph{tree.out}中
+\begin{itemize}
+	\item 一行一个整数表示染色方案数
+\end{itemize}
+\paragraph{样例输入}
+\begin{lstlisting}
+5 4
+1 2
+1 3
+2 4
+2 5
+\end{lstlisting}
+\paragraph{样例输出}
+\begin{lstlisting}
+640
+\end{lstlisting}
+\paragraph{子任务}
+\paragraph{}对于$100\%$的数据，满足$n\le 500,1\leq m<998244353$
+\begin{center}
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		Subtask编号&分值&性质\\
+		\hline
+		1&15&$n,m\le5$\\
+		\hline
+		2&5&$m=1$\\
+		\hline
+		3&15&$m=2$\\
+		\hline
+		4&15&保证给定的是一条链\\
+		\hline
+		10&50&\\
+		\hline
+	\end{tabular}	
+\end{center}
+
+\clearpage
+\begin{center}
+	\large{Horseless}
+\end{center}
+\paragraph{题目描述}
+\paragraph{}众所周知，小\text{P}从未拥有过\textbf{码}，但是善良的小\text{H}想送给小\text{P}$S$个\textbf{码}
+\paragraph{}小\text{H}总共有$n$个码力自动机，但是购买$i$号\textbf{一个}码力自动机需要消耗$C_i$个\textbf{码}，而码力自动机可以在\textbf{工作时}的每个时刻给小$H$提供$V_i$个\textbf{码}
+\paragraph{}但是码力自动机需要小\text{H}使用他人脑$1024$位计算机快速计算，所以每\textbf{一个}时刻只能有\textbf{一个}码力自动机为其工作，而小\text{H}可以在任意时刻\textbf{瞬间}购买任意多个码力自动机
+\paragraph{}现在是$0$时刻，小\text{H}希望可以尽快为小\text{P}准备$S$个\textbf{码}，需要你告诉他最快时间
+\paragraph{}保证存在$C_i=0$的码力自动机
+
+\paragraph{输入格式}
+\paragraph{}从\emph{horseless.in}中读入数据
+\begin{itemize}
+\item 第一行两个整数$n$,$S$
+\item 接下来$n$行每行两个整数$V_i,C_i$
+\end{itemize}
+\paragraph{输出格式}
+\paragraph{}输出到\emph{horseless.out}中
+\begin{itemize}
+	\item 一行一个整数表示最快时刻
+\end{itemize}
+\paragraph{样例输入}
+\begin{lstlisting}
+3 9
+1 0
+2 3
+5 4
+\end{lstlisting}
+\paragraph{样例输出}
+\begin{lstlisting}
+6
+\end{lstlisting}
+\paragraph{子任务}
+\paragraph{}对于$100\%$的数据，满足$n\le 2\times 10^5,S,C_i,V_i\le 10^{18}$
+\begin{center}
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		Subtask编号&分值&性质\\
+		\hline
+		1&15&$n,S\le 18$\\
+		\hline
+		2&15&$n,S\le 2000$\\
+		\hline
+		3&20&$S\le 10^6$\\
+		\hline
+		4&20&$S\le 10^{12}$\\
+		\hline
+		10&30&\\
+		\hline
+	\end{tabular}	
+\end{center}
+\end{document}

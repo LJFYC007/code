@@ -1,0 +1,20 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{listings}
+
+\begin{document}
+\paragraph{$20\mathrm{pts}$}
+\paragraph{}给常数不优秀的同学
+\paragraph{$50\mathrm{pts}$}
+\paragraph{}暴力枚举每一位，然后判断是否符合条件，时间复杂度$O(2^n)$
+\paragraph{另外$10\mathrm{pts}$}
+\paragraph{}$n=m$的情况很明显答案是$n+1$
+\paragraph{$100\mathrm{pts}$}
+\paragraph{}首先将符合条件的长度为$n$的串构建一个有$n+1$个串的AC自动机
+\paragraph{}考虑DP，令$dp[i][j]$表示构造到第$i$位，AC自动机匹配到了第$j$位不符合答案的方案数，可以想到转移方程$dp[i][j]=\sum{dp[i-1][k]}$($k$表示AC自动机上$k$可以转移到$j$，其中如果AC自动机上$k$为某一个串的末尾，则不添加$dp[i-1][k]$)
+\paragraph{}可以想到这个方法的正确性，因为在每一次DP过程中可以保证不出现可以与AC自动机完全匹配的串，其实在DP的过程中我们相当于在模拟串的匹配
+\paragraph{}所以最后的答案就是$2^m-\sum dp[m][i]$(其中$i$为AC自动机的每个节点)，时间复杂度为$O(n^3)$
+\end{document}

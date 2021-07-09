@@ -1,0 +1,152 @@
+## IOI2020国家集训队作业
+
+- [ ] CF549E(毒瘤计算几何，三角剖分)
+- [x] CF674G
+- [x] ARC103F
+- [ ] CF594E(毒瘤字符串，LYNDON分解+拓展KMP)
+- [x] AGC034F
+- [x] AGC030D
+- [ ] CF575E
+- [x] AGC035C
+- [x] AGC026F
+- [ ] CF607E(毒瘤计算几何)
+- [x] AGC038E
+- [x] AGC030C
+- [ ] CF611G
+- [x] AGC034D
+- [x] AGC024F
+- [x] CF571E(工业SHIT题)
+- [ ] CF696F
+- [x] ARC093E
+- [ ] CF573E(又一道SHIT题)
+- [x] CF704E
+- [x] ARC103D
+- [x] CF627F
+- [x] AGC035D
+- [ ] AGC033F
+- [x] CF538G
+- [x] CF674D
+- [x] ARC101F
+- [x] CF566C
+- [x] CF700E
+- [x] ARC092F
+- [ ] CF566E
+- [x] AGC034E
+- [x] AGC022D
+- [x] CF613E
+- [x] AGC033E
+- [x] AGC021F
+- [x] CF528C
+- [x] AGC038F
+- [x] AGC029E
+- [x] CF611H
+- [x] AGC036D
+- [x] AGC027E
+- [ ] CF626G(细节有点多的水题，鸽着)
+- [x] CF666D
+- [x] ARC102F
+- [x] CF605E
+- [x] AGC031E
+- [x] AGC028D
+- [x] CF536D
+- [x] AGC027F
+- [x] AGC024E
+- [ ] CF553E
+- [x] AGC037F
+- [x] AGC029C
+- [x] CF571D
+- [x] CF708E
+- [x] ARC093F
+- [x] CF603E
+- [x] AGC036E
+- [x] AGC021E
+- [x] CF590E
+- [x] AGC031D
+- [x] AGC026E
+- [x] CF587F
+- [ ] CF685C
+- [x] ARC096E
+- [ ] CF587D
+- [x] CF674F
+- [x] ARC091F
+- [x] CF575I
+- [x] AGC035F
+- [x] AGC028F
+- [x] CF504E
+- [x] CF671E
+- [x] ARC101E
+- [ ] CF585F
+- [ ] CF708D
+- [x] ARC095F
+- [x] CF521D
+- [x] AGC036F
+- [x] AGC028C
+- [ ] CF585E
+- [x] AGC032C
+- [x] AGC023F
+- [ ] CF568C(水题不管了)
+- [ ] CF666E
+- [x] AGC025E
+- [x] CF568E
+- [ ] CF704C
+- [x] ARC100F
+- [x] CF538H
+- [x] AGC032D
+- [x] AGC024D
+- [x] CF582E
+- [x] AGC039E
+- [ ] AGC025F
+- [ ] CF526F
+- [x] AGC037D
+- [x] AGC020E
+- [x] CF521E
+- [x] AGC030F
+- [x] AGC026D
+- [x] CF526G
+- [ ] CF698D
+- [x] ARC089F
+- [ ] CF582D
+- [ ] CF634F
+- [x] AGC020D
+- [ ] CF578F
+- [ ] CF704B
+- [x] ARC099F
+- [ ] CF578E
+- [x] AGC035E
+- [x] AGC025D
+- [x] CF516E
+- [x] AGC030E
+- [x] AGC027D
+- [ ] CF576E
+- [ ] CF704D
+- [x] ARC096F
+- [x] CF547E
+- [ ] CF671D
+- [x] ARC097F
+- [x] CF547D
+- [x] AGC033D
+- [x] AGC031F
+- [ ] CF575A(tm全是工业SHIT题)
+- [ ] CF639E
+- [x] AGC039F
+- [x] CF559E
+- [x] AGC037E
+- [ ] AGC020F
+- [x] CF512D
+- [ ] AGC028E
+- [ ] AGC022F
+- [x] CF506E
+- [x] CF639F
+- [ ] AGC039D(恶心平面几何)
+- [x] CF576D
+- [x] AGC029F
+- [x] AGC022E
+- [x] CF555E
+- [x] AGC032E
+- [x] AGC023D
+- [x] CF506C
+- [x] CF679E
+- [x] ARC098F
+- [x] CF516D
+- [ ] AGC032F
+- [x] AGC023E

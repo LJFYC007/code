@@ -1,0 +1,291 @@
+﻿\documentclass[12pt, a4paper]{article}
+\usepackage[slantfont, boldfont]{xeCJK}
+\usepackage{ulem}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}  % Use Input in the format of Algorithm
+\renewcommand{\algorithmicensure}{\textbf{Output:}} % Use Output in the format of Algorithm
+\usepackage{indentfirst}
+\usepackage[top = 1.0in, bottom = 1.0in, left = 1.0in, right = 1.0in]{geometry}
+\usepackage{listings}
+\usepackage{enumerate}
+\usepackage{multirow}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{graphicx}
+
+\setCJKmainfont{SimSun}
+\setCJKmonofont{SimSun}
+
+\setlength{\parskip}{0.6\baselineskip} %行距
+\setlength{\parindent}{2em} %缩进
+
+\newcolumntype{Y}{>{\columncolor{red}}p{12pt}}
+\newcolumntype{N}{>{\columncolor{white}}p{12pt}}
+
+\renewcommand\arraystretch{1.2} %表格行高
+
+\title{模拟赛}
+\begin{document}
+\maketitle
+\begin{center}
+\begin{tabular}{|p{90pt}|p{90pt}|p{90pt}|p{90pt}|}
+	\hline
+	题目名称 & 序列 & 进制 & 矩阵 \\
+	\hline
+	目录 & seq & hex & matrix \\
+	\hline
+	可执行文件名 & seq & hex & matrix \\
+	\hline
+	输入文件名 & seq.in & hex.in & matrix.in \\
+	\hline
+	输出文件名 & seq.out & hex.out & matrix.out \\
+	\hline
+	每个测试点时限 & $1.0s$ & $1.0s$ & $2.0s$ \\
+	\hline
+	内存限制 & 512MB & 512MB & 512MB \\
+	\hline
+	试题总分 & 100 & 100 & 100 \\
+	\hline
+	测试点数目 & 10 & 20 & 20 \\
+	\hline
+	每个测试点分值 & 10 & 5 & 5 \\
+	\hline
+	是否有部分分 & 否 & 否 & 否\\
+	\hline
+	题目类型 & 传统型 & 传统型 & 传统型\\
+     \hline
+\end{tabular}
+
+提交的源程序文件名
+
+\begin{tabular}{|p{90pt}|p{90pt}|p{90pt}|p{90pt}|}
+	\hline
+	对于 C++ 语言 & seq.cpp & hex.cpp & matrix.cpp \\
+	\hline
+	对于 C 语言 & seq.c & hex.c & matrix.c \\
+	\hline
+	对于 Pascal 语言 & seq.pas & hex.pas & matrix.pas \\
+	\hline
+\end{tabular}
+
+编译开关
+
+\begin{tabular}{|p{90pt}|p{90pt}|p{90pt}|p{90pt}|}
+	\hline
+	对于 C++ 语言 & -O2 -std=c++11 & -O2 -std=c++11 & -O2 -std=c++11 \\
+	\hline
+	对于 C 语言 & -O2 -std=c11 & -O2 -std=c11 & -O2 -std=c11 \\
+	\hline
+	对于 Pascal 语言 & -O2 & -O2& -O2 \\
+	\hline
+\end{tabular}
+
+\end{center}
+\begin{center}
+\end{center}
+
+
+\newpage
+\section{序列}
+
+\subsection{题目描述}
+
+给定一个长度为偶数的排列$p$,以及一个初始时为空的序列$q$,对其进行如下操作直到$p$为空：
+
+从$p$中找出两个相邻元素，按原来在$p$中的顺序加入$q$头部，然后把它们从$p$中删去。
+
+求可能得到的字典序最小的$q$。
+
+\subsection{输入格式}
+
+从文件seq.in中读取数据。
+
+第一行一个整数 $N$ ，表示排列$p$长度。
+
+接下来一行$N$个整数，其中第$i$个整数$p_i$表示排列$p$的第$i$个元素。
+
+\subsection{输出格式}
+
+输出到文件seq.out中。
+
+输出一行$N$个整数，表示字典序最小的$q$。
+
+\subsection{样例1输入}
+\begin{quote}
+\begin{verbatim}
+4
+3 2 4 1
+\end{verbatim}
+\end{quote}
+\subsection{样例1输出}
+\begin{quote}
+\begin{verbatim}
+3 1 2 4
+\end{verbatim}
+\end{quote}
+\subsection{样例2输入}
+\begin{quote}
+\begin{verbatim}
+8
+4 6 3 2 8 5 7 1
+\end{verbatim}
+\end{quote}
+\subsection{样例2输出}
+\begin{quote}
+\begin{verbatim}
+3 1 2 7 4 6 8 5
+\end{verbatim}
+\end{quote}
+
+\subsection{数据范围与约定}
+
+对于$20\%$的数据，$1 \leq N \leq 10$;
+
+对于$40\%$的数据，$1 \leq N \leq 2000$;
+
+对于额外$10\%$的数据,保证$p_i=i$；
+
+对于$100\%$的数据，保证$1 \leq N \leq 2\times 10^5$。
+
+\newpage
+\section{进制}
+
+\subsection{题目描述}
+
+将所有正整数的十六进制从小到大依次写下，会形成一个长度无穷的序列，它的前几位是123456789ABCDEF1011121314…。
+
+依次回答$T$组询问，分为如下两种：
+
+1.给定正整数$n$，回答这个序列第$n$位上的字符；
+
+2.给定正整数$n$以及字符$c$,回答序列的前$n$位中，有多少位是$c$，保证$c$是$0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F$中的一个。
+
+\subsection{输入格式}
+
+从文件hex.in中读取数据。
+
+第一行一个整数$T$，表示数据组数。
+
+接下来$T$行，每行先读入一个整数$typ$表示数据类型。
+
+如果$typ=1$，接下来读入一个正整数$n$，然后回答一组询问1；
+
+如果$typ=2$，接下来读入一个正整数$n$和一个字符$c$，然后回答一组询问2。
+
+\subsection{输出格式}
+
+输出到文件hex.out中。
+
+对于每组数据，输出一行一个字符或一个整数表示答案。
+
+\subsection{样例输入}
+\begin{quote}
+\begin{verbatim}
+10
+1 20
+1 21
+1 22
+2 21 0
+2 21 1
+2 21 2
+2 200 2
+2 2000 0
+2 2000 1
+2 2000 2
+\end{verbatim}
+\end{quote}
+\subsection{样例输出}
+\begin{quote}
+\begin{verbatim}
+1
+2
+1
+1
+5
+2
+23
+79
+352
+342
+\end{verbatim}
+\end{quote}
+\subsection{数据范围与约定}
+
+对于$15\%$的数据，$1 \leq T \leq 20$,$1 \leq N \leq 2000$;
+
+对于$30\%$的数据，$1 \leq N \leq 10^6$;
+
+对于额外$20\%$的数据,保证$typ=1$；
+
+对于$100\%$的数据，保证$1 \leq T \leq 10^5$,$typ \in \{1,2\}$,$1 \leq N \leq 10^{18}$。
+
+\newpage
+\section{矩阵}
+\subsection{题目描述}
+
+有一个$N$行$M$列的矩阵，你可以选择一些位置涂黑，其它位置涂白。
+
+对一个矩阵，我们计算出一个长度为$N$的序列$A$,以及两个长度为$M$的序列$B$和$C$：
+
+令$A_i$为第$i$行第一次出现黑色的位置的列号，如果第$i$行全白，则为$M+1$;
+
+令$B_i$为第$i$列第一次出现黑色的位置的行号，如果第$i$列全白，则为$N+1$;
+
+令$C_i$为第$i$列最后一次出现黑色的位置的行号，如果第$i$列全白，则为$0$;
+
+请你计算，有多少种不同的$\{A,B,C\}$三元组可能得到，输出答案对$998244353$取模后的结果。
+
+\subsection{输入格式}
+
+从文件matrix.in中读取数据。
+
+输入共一行两个整数$N$,$M$，分别表示矩阵的行数和列数。
+
+\subsection{输出格式}
+
+输出到文件matrix.out中。
+
+输出一行一个整数，表示答案。
+
+\subsection{样例输入1}
+\begin{quote}
+\begin{verbatim}
+2 3
+\end{verbatim}
+\end{quote}
+\subsection{样例输出1}
+\begin{quote}
+\begin{verbatim}
+64
+\end{verbatim}
+\end{quote}
+\subsection{样例输入2}
+\begin{quote}
+\begin{verbatim}
+4 3
+\end{verbatim}
+\end{quote}
+\subsection{样例输出1}
+\begin{quote}
+\begin{verbatim}
+2588
+\end{verbatim}
+\end{quote}
+\subsection{数据范围与约定}
+
+对于$20\%$的数据，$1 \leq N \leq 6$,$1 \leq M \leq 3$;
+
+对于$50\%$的数据，$1 \leq N \leq 200$,$1 \leq M \leq 200$;
+
+对于额外$5\%$的数据,保证$M=1$；
+
+对于额外$15\%$的数据,$1 \leq N \leq 2000$,$1 \leq M \leq 3$；
+
+对于$100\%$的数据，保证$1 \leq N \leq 8000$,$1 \leq M \leq 200$。
+
+\end{document}

@@ -1,0 +1,8 @@
+./good < good3.in > good3.out
+./good < good4.in > good4.out
+./good < good5.in > good5.out
+./good < good6.in > good6.out
+./good < good7.in > good7.out
+./good < good8.in > good8.out
+./good < good9.in > good9.out
+./good < good10.in > good10.out
