@@ -31,7 +31,7 @@ inline node Solve(int a, int b, node R, node U)
 {
 	if ( a < b ) { swap(a, b); swap(R, U); }
 	if ( a == 2 ) return R;
-	return Solve(a % b, b, R, R * U) * R;
+	return Solve(a % b, b, R, R * U);//  * R;
 }
 
 signed main()
@@ -45,8 +45,10 @@ signed main()
 	node R, U; REP(i, 1, 6) R.num[i] = U.num[i] = 0;
 	R.num[3] = 1; REP(i, 1, 6) R.p[i] = A[i]; 
 	U.num[6] = 1; REP(i, 1, 6) U.p[i] = B[i];
+	cout << R.p[5] << endl;
 	node ans = Solve(a, b, R, U);
 	int ret = val[5];
+	REP(i, 1, 6) cout << ans.p[i] << " "; cout << endl;
 	REP(i, 1, 6) ret += val[i] * ans.num[i];
 	printf("%lld\n", ret);
     return 0;
