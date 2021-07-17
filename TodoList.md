@@ -133,7 +133,7 @@
 - [x] AGC037E
 - [ ] AGC020F
 - [x] CF512D
-- [ ] AGC028E
+- [x] AGC028E
 - [ ] AGC022F
 - [x] CF506E
 - [x] CF639F
