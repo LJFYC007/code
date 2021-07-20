@@ -86,8 +86,7 @@ const int maxn = 3e5 + 10;
 const u128 M = -1;
 
 int n, m, q; u128 a[maxn], ans;
-struct node { int len; u128 lazy; bool ccc; } Tree[maxn << 2];
-u128 AAA[maxn << 5], *sum[maxn << 2], *now = AAA;
+struct node { int len; vector<u128> sum; u128 lazy; bool ccc; } Tree[maxn << 2];
 #define lson root << 1
 #define rson root << 1 | 1
 
@@ -95,23 +94,24 @@ inline void PushUp(int root)
 { 
 	if ( Tree[root].ccc ) return ;
 	u128 c = 0; Tree[root].len = max(Tree[lson].len, Tree[rson].len);
+	Tree[root].sum.resize(Tree[root].len + 1);
 	for ( register int i = 0; i <= Tree[root].len; ++ i ) 
 	{
-		const u128 X = Tree[lson].len >= i ? sum[lson][i] : 0;
-		const u128 Y = Tree[rson].len >= i ? sum[rson][i] : 0;
+		const u128 X = Tree[lson].len >= i ? Tree[lson].sum[i] : 0;
+		const u128 Y = Tree[rson].len >= i ? Tree[rson].sum[i] : 0;
 		const u128 y = X ^ Y;
-		sum[root][i] = y ^ c; c = (X & Y) | (y & c); 
+		Tree[root].sum[i] = y ^ c; c = (X & Y) | (y & c); 
 	}
-	if ( c ) sum[root][++ Tree[root].len] = c;
-	else while ( Tree[root].len >= 0 && !sum[root][Tree[root].len] ) -- Tree[root].len; 
+	if ( c ) Tree[root].sum.push_back(c), ++ Tree[root].len;
+	else while ( Tree[root].len >= 0 && !Tree[root].sum[Tree[root].len] ) { -- Tree[root].len; Tree[root].sum.pop_back(); }
 	if ( Tree[root].len == -1 ) Tree[root].ccc = true;
 } 
 
 inline void PushTag(int root, const u128 val)
 {
 	if ( Tree[root].ccc ) return ;
-	Tree[root].lazy &= val; for ( register int i = 0; i <= Tree[root].len; ++ i ) sum[root][i] &= val;
-	while ( Tree[root].len >= 0 && !sum[root][Tree[root].len] ) -- Tree[root].len; 
+	Tree[root].lazy &= val; for ( register int i = 0; i <= Tree[root].len; ++ i ) Tree[root].sum[i] &= val;
+	while ( Tree[root].len >= 0 && !Tree[root].sum[Tree[root].len] ) { -- Tree[root].len; Tree[root].sum.pop_back(); }
 	if ( Tree[root].len == -1 ) Tree[root].ccc = true;
 }
 
@@ -125,9 +125,9 @@ inline void PushDown(int root)
 inline void Build(int root, int l, int r)
 {
 	Tree[root].lazy = M;
-	if ( l == r ) { sum[root] = now; sum[root][0] = a[l]; now += 1; return ; } 
+	if ( l == r ) { Tree[root].sum.push_back(a[l]); return ; } 
 	int Mid = l + r >> 1; Build(lson, l, Mid); Build(rson, Mid + 1, r);	
-	sum[root] = now; PushUp(root); now += Tree[root].len + 2;
+	PushUp(root);
 }
 
 inline void Query(int root, int l, int r, int L, int R)
@@ -136,7 +136,7 @@ inline void Query(int root, int l, int r, int L, int R)
 	if ( L <= l && r <= R ) 
 	{
 		int x = 1;
-		for ( register int i = 0; i <= Tree[root].len; ++ i ) { ans += sum[root][i] * x; x <<= 1; } 
+		for ( register int i = 0; i <= Tree[root].len; ++ i ) { ans += Tree[root].sum[i] * x; x <<= 1; } 
 		return ;
 	}
 	int Mid = l + r >> 1; PushDown(root);
@@ -157,7 +157,7 @@ inline void Modify(int root, int l, int r, int L, int R, const u128 val)
 inline void Fuck(int root, int l, int r, const u128 val)
 {
 	if ( Tree[root].ccc ) return ;
-	if ( l == r ) { sum[root][0] /= val; return ; } 
+	if ( l == r ) { Tree[root].sum[0] /= val; return ; } 
 	int Mid = l + r >> 1; PushDown(root);
 	Fuck(lson, l, Mid, val); Fuck(rson, Mid + 1, r, val);
 	PushUp(root);
