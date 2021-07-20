@@ -28,64 +28,93 @@ inline void output(u128 res) {
 }
 
 const int maxn = 3e5 + 10;
-const int M = (1 << 30) - 2;
+const u128 M = -1;
 
-int n, m, q, f[maxn], b[maxn], MaxBit[maxn];
-u128 a[maxn], p[128], c[maxn];
-struct node { int op, l, r; u128 v; } Q[maxn];
-struct Segment
-{
-	struct Node { int sum; } Tree[maxn << 2];
+int n, m, q; u128 a[maxn];
+struct node { int len; u128 sum[20], lazy; } Tree[maxn << 2];
 #define lson root << 1
 #define rson root << 1 | 1
-	
-	inline void PushUp(int root) { Tree[root].sum = (Tree[lson].sum & M) + (Tree[rson].sum & M); } 
-	inline void PushDown(int root)
-	{
-		if ( Tree[root].sum != 1 ) return ;
-		Tree[lson].sum = Tree[rson].sum = 1; Tree[root].sum = 0;
-	}
 
-	inline void Build(int root, int l, int r)
+inline void PushUp(int root) 
+{ 
+	u128 c = 0; 
+	REP(i, 0, Tree[root].len)
 	{
-		if ( l == r ) { Tree[root].sum = b[l] << 1; return ; } 
-		int Mid = l + r >> 1; Build(lson, l, Mid); Build(rson, Mid + 1, r);	
-		PushUp(root);
+		u128 x = Tree[lson].sum[i] & Tree[rson].sum[i];
+		u128 y = (Tree[lson].sum[i] ^ x) | (Tree[rson].sum[i] ^ x);
+		u128 z = y & c;
+		Tree[root].sum[i] = (y ^ z) | (c ^ z);	
+		c = x | z;
 	}
+} 
 
-	inline int Query(int root, int l, int r, int L, int R)
+inline void PushTag(int root, u128 val)
+{
+	Tree[root].lazy &= val;
+	REP(i, 0, Tree[root].len) Tree[root].sum[i] &= val;
+}
+
+inline void PushDown(int root)
+{
+	if ( Tree[root].lazy == M ) return ;
+	PushTag(lson, Tree[root].lazy); PushTag(rson, Tree[root].lazy);
+	Tree[root].lazy = M;
+}
+
+inline void Build(int root, int l, int r)
+{
+	Tree[root].lazy = M;
+	if ( l == r ) { Tree[root].sum[0] = a[l]; return ; } 
+	int Mid = l + r >> 1; Build(lson, l, Mid); Build(rson, Mid + 1, r);	
+	Tree[root].len = Tree[lson].len + 1; PushUp(root);
+}
+
+inline u128 Query(int root, int l, int r, int L, int R)
+{
+	if ( L <= l && r <= R ) 
 	{
-		if ( !(Tree[root].sum & M) || (L <= l && r <= R) ) return Tree[root].sum >> 1; 
-		int Mid = l + r >> 1, ret = 0; PushDown(root);
-		if ( L <= Mid ) ret += Query(lson, l, Mid, L, R);
-		if ( Mid < R ) ret += Query(rson, Mid + 1, r, L, R);
+		u128 ret = 0;
+		REP(i, 0, Tree[root].len) ret += Tree[root].sum[i] * (1 << i);
 		return ret;
 	}
+	int Mid = l + r >> 1; u128 ret = 0; PushDown(root);
+	if ( L <= Mid ) ret += Query(lson, l, Mid, L, R);
+	if ( Mid < R ) ret += Query(rson, Mid + 1, r, L, R);
+	return ret;
+}
 
-	inline void Modify(int root, int l, int r, int pos, int val)
-	{
-		if ( l == r ) { Tree[root].sum = val << 1; return ; } 
-		int Mid = l + r >> 1; PushDown(root);
-		if ( pos <= Mid ) Modify(lson, l, Mid, pos, val);
-		else Modify(rson, Mid + 1, r, pos, val);
-		PushUp(root);
-	}
+inline void Modify(int root, int l, int r, int L, int R, u128 val)
+{
+	if ( L <= l && r <= R ) { PushTag(root, val); return ; } 
+	int Mid = l + r >> 1; PushDown(root);
+	if ( L <= Mid ) Modify(lson, l, Mid, L, R, val);
+	if ( Mid < R ) Modify(rson, Mid + 1, r, L, R, val);
+	PushUp(root);
+}
 
-	inline void Delete(int root, int l, int r, int L, int R)
-	{
-		if ( !(Tree[root].sum & M) ) return ; 
-		if ( L <= l && r <= R ) { Tree[root].sum = 1; return ; } 
-		int Mid = l + r >> 1; PushDown(root);
-		if ( L <= Mid ) Delete(lson, l, Mid, L, R);
-		if ( Mid < R ) Delete(rson, Mid + 1, r, L, R);
-		PushUp(root);
-	}
-} Seg[128];
+inline void Fuck(int root, int l, int r, u128 val)
+{
+	bool flag = false;
+	REP(i, 0, Tree[root].len) if ( Tree[root].sum[i] ) flag = true;
+	if ( !flag ) return ;
+	if ( l == r ) { Tree[root].sum[0] /= val; return ; } 
+	int Mid = l + r >> 1; PushDown(root);
+	Fuck(lson, l, Mid, val); Fuck(rson, Mid + 1, r, val);
+	PushUp(root);
+}
 
-inline int find(int x) { return x == f[x] ? x : f[x] = find(f[x]); } 
-inline int lowbit(int x) { return x & -x; } 
-inline void modify(int pos, u128 val) { for ( int i = pos; i <= n; i += lowbit(i) ) c[i] += val; } 
-inline u128 query(int pos) { u128 ret = 0; for ( int i = pos; i > 0; i -= lowbit(i) ) ret += c[i]; return ret; }
+inline void Delete(int root, int l, int r, int L, int R, u128 val)
+{
+	if ( L <= l && r <= R ) 
+	{ 
+		Fuck(root, l, r, val);
+		return ;
+	} 
+	int Mid = l + r >> 1; PushDown(root);
+	if ( L <= Mid ) Delete(lson, l, Mid, L, R, val);
+	if ( Mid < R ) Delete(rson, Mid + 1, r, L, R, val);
+	PushUp(root);
+}
 
 int main()
 {
@@ -94,79 +123,17 @@ int main()
     freopen("output.txt", "w", stdout);
 #endif
 	scanf("%d%d", &n, &q); REP(i, 1, n) a[i] = read(); 
-	REP(i, 1, n + 1) f[i] = i;
-	p[0] = 1; REP(i, 1, 127) p[i] = p[i - 1] * 2;
-	bool flag = false;
+	Build(1, 1, n);
 	REP(i, 1, q)
 	{
-		int op, l, r; u128 v; scanf("%d%d%d", &op, &l, &r); Q[i] = {op, l, r};
-		if ( op == 1 ) Q[i].v = read(); 
-		if ( op == 2 ) { Q[i].v = read(); flag = true; } 
-	}
-
-	if ( !flag ) 
-	{
-		REP(i, 1, n) modify(i, a[i]);
-		REP(i, 1, q)
+		int op, l, r; u128 v; scanf("%d%d%d", &op, &l, &r); 
+		if ( op == 1 ) 
 		{
-			if ( Q[i].op == 1 ) 
-			{
-				if ( Q[i].v == 1 ) continue ; 
-				int x = find(Q[i].l);
-				while ( x <= Q[i].r ) 
-				{
-					modify(x, -a[x]); a[x] /= Q[i].v; modify(x, a[x]);
-					if ( !a[x] ) f[x] = x + 1;
-					x = find(x + 1);
-				}
-			}
-			if ( Q[i].op == 3 ) 
-			{
-				u128 ans = query(Q[i].r) - query(Q[i].l - 1);
-				output(ans); putchar('\n');
-			}
+			v = read(); if ( v == 1 ) continue ; 
+			Delete(1, 1, n, l, r, v);
 		}
-		return 0;
-	}
-
-	REP(i, 1, n) MaxBit[i] = 127;
-	REP(i, 0, 127) 
-	{
-		REP(j, 1, n) b[j] = (a[j] >> i) & 1;
-		Seg[i].Build(1, 1, n);
-	}
-	REP(i, 1, q)
-	{
-		if ( Q[i].op == 1 ) 
-		{
-			if ( Q[i].v == 1 ) continue ; 
-			int x = find(Q[i].l);
-			while ( x <= Q[i].r ) 
-			{
-				a[x] = 0; 
-				REP(j, 0, MaxBit[x]) if ( Seg[j].Query(1, 1, n, x, x) ) a[x] += p[j];
-				a[x] /= Q[i].v;
-				bool ttt = false;
-				for ( int j = MaxBit[x]; j >= 0; -- j ) 
-					if ( (a[x] >> j) & 1 ) { MaxBit[x] = j; ttt = true; break ; } 
-					else Seg[j].Modify(1, 1, n, x, 0);
-				if ( !ttt ) MaxBit[x] = -1;
-				REP(j, 0, MaxBit[x]) Seg[j].Modify(1, 1, n, x, (a[x] >> j) & 1);
-				if ( !a[x] ) f[x] = x + 1;
-				x = find(x + 1);
-			}
-		}
-		if ( Q[i].op == 2 ) 
-		{
-			REP(j, 0, 127) if ( !((Q[i].v >> j) & 1) )
-				Seg[j].Delete(1, 1, n, Q[i].l, Q[i].r);
-		}
-		if ( Q[i].op == 3 ) 
-		{
-			u128 ans = 0;
-			REP(j, 0, 127) ans += p[j] * Seg[j].Query(1, 1, n, Q[i].l, Q[i].r);
-			output(ans); putchar('\n');
-		}
+		if ( op == 2 ) Modify(1, 1, n, l, r, read());
+		if ( op == 3 ) { output(Query(1, 1, n, l, r)); putchar('\n'); }
 	}
     return 0;
 }
