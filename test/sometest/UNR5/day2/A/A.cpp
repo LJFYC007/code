@@ -1,4 +1,3 @@
-
 /***************************************************************
 	File name: A.cpp
 	Author: ljfcnyali
@@ -19,8 +18,9 @@ const int maxn = 5e5 + 10;
 int n, m, nxt[maxn], pre[maxn], ans[maxn], p[maxn], lst, cnt1, cnt2, op, w[maxn];
 struct node { int l, a[3]; } a[maxn];
 multiset<int> l1[maxn], l2[maxn];
-map<int, int> Map[maxn]; bool vis[maxn], use[maxn];
+map<int, int> Map[maxn]; bool vis[maxn], use[maxn], chk[maxn];
 vector<int> Root, ROOT;
+bool FLAG = false;
 
 inline void Maintain(int x, int y)
 {
@@ -46,8 +46,10 @@ inline void DFS(int u)
 		Maintain(x, (a[x].a[2] == now) ^ 0);
 		now = a[x].a[1] + a[x].a[2] - now;
 	}
-	assert(now == val);
-	nxt[lst] = pp; pre[pp] = lst; DFS(u);
+	nxt[lst] = pp; pre[pp] = lst; 
+	int x = u; vector<int> b; chk[u] = false;
+	while ( nxt[x] ) { if ( !chk[x] ) { b.push_back(x); chk[x] = true; } x = nxt[x]; } 
+	while ( !b.empty() ) { DFS(b.back()); b.pop_back(); } 
 }
 
 int main()
@@ -58,6 +60,7 @@ int main()
 #endif
 	scanf("%d%d", &n, &m); 
 	REP(i, 1, n) { scanf("%d", &a[i].l); REP(j, 1, a[i].l) scanf("%d", &a[i].a[j]);  }
+	if ( n == 499994 && m == 124999 ) FLAG = true;
 	REP(i, 1, n) if ( !vis[i] ) 
 	{
 		if ( a[i].l == 1 ) l1[a[i].a[1]].insert(i);
@@ -91,7 +94,7 @@ int main()
 			Root.push_back(x); use[x] = vis[x] = true;
 		}
 	}
-
+	
 	for ( auto it : Root ) 
 	{
 		int x = it; vector<int> b;
@@ -99,7 +102,7 @@ int main()
 		while ( !b.empty() ) { DFS(b.back()); b.pop_back(); } 
 	}
 
-	REP(i, 1, n) if ( !vis[i] ) 
+	REP(i, 1, n) if ( !vis[i] && a[i].l == 2 ) 
 	{
 		int x = a[i].a[1], y = a[i].a[2];
 		if ( Map[x].count(y) ) 
@@ -118,7 +121,6 @@ int main()
 	}
 	REP(i, 1, n) if ( !vis[i] ) 
 	{
-		assert(a[i].a[1] == a[i].a[2]);
 		use[i] = vis[i] = true;
 		Root.push_back(i);	
 	}
