@@ -1,0 +1,6 @@
+`HysFull [ A, B, C ] {
+	assumptions:
+	conclusions:
+		(B->C)->((A->B)->(A->C))
+		(A->B)->((B->C)->(A->C))
+}

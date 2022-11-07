@@ -1,0 +1,45 @@
+`pTrue [ T, A ] {
+	assumptions:
+		T
+	conclusions:
+		(T->A)->A
+}
+
+`DN1 [ A ] {
+	assumptions:
+	conclusions:
+		!!A->A
+}
+
+`DN2 [ A ] {
+	assumptions:
+	conclusions:
+		A->!!A
+}
+
+`pFalse [ T, A ] {
+	assumptions:
+		T
+	conclusions:
+		!T->A
+}
+
+`contradiction [ A, B ] {
+	assumptions:
+	conclusions:
+		A->(!A->B)
+}
+
+`exFalsoQuodlibet [ T, A ] {
+	assumptions:
+		T
+	conclusions:
+		!A->(A->!T)
+}
+
+`defForFalse [ T, A ] {
+	assumptions:
+		T
+	conclusions:
+		(A->!T)->!A
+}

@@ -1,0 +1,42 @@
+`reverse [ A ] {
+	assumptions:
+	conclusions:
+		(!A->A)->A
+}
+
+`P2' [ A, B, C ] {
+	assumptions:
+	conclusions:
+		((A->B)->(A->C))->(A->(B->C))
+}
+
+`P3' [ A, B ] {
+	assumptions:
+	conclusions:
+		(A->B)->(!B->!A)
+}
+
+`reductioAdAbsurdum [ A, B ] {
+	assumptions:
+	conclusions:
+		(A->B)->((A->!B)->!A)
+}
+
+`caseAnalysis [ A, B ] {
+	assumptions:
+	conclusions:
+		(A->B)->((!A->B)->B)
+}
+
+`peirce [ A, B ] {
+	assumptions:
+	conclusions:
+		((A->B)->A)->A
+}
+
+`peirceEx [ A, B, C ] {
+	assumptions:
+		A->C
+	conclusions:
+		((A->B)->C)->C
+}

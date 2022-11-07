@@ -1,0 +1,20 @@
+`andIsIdem [ A, B ] {
+	assumptions:
+		A->(A->B)
+	conclusions:
+		A->B
+}
+
+`andIsComm [ A, B, C ] {
+	assumptions:
+		A->(B->C)
+	conclusions:
+		B->(A->C)
+}
+
+`andIsAsso [ A, B, C, D ] {
+	assumptions:
+		A->(B->(C->D))
+	conclusions:
+		B->(C->(A->D))
+}

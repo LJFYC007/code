@@ -1,0 +1,45 @@
+`orIsComm [ A, B ] {
+	assumptions:
+	conclusions:
+		(!A->B)->(!B->A)
+}
+
+`complete [ A, B ] {
+	assumptions:
+	conclusions:
+		!(A->B)->(B->A)
+}
+
+`constructiveDilemma [ A, B, C, D ] {
+	assumptions:
+		A->C
+		B->D
+	conclusions:
+		(!A->B)->(!C->D)
+}
+
+`resolution [ A, B, C ] {
+	assumptions:
+	conclusions:
+		(A->B)->((!A->C)->(!B->C))
+}
+
+`orIsAsso [ A, B, C ] {
+	assumptions:
+	conclusions:
+		(!(!A->B)->C)->(!A->(!B->C))
+		(!A->(!B->C))->(!(!A->B)->C)
+}
+
+`implDistributeOverOr [ A, B, C ] {
+	assumptions:
+	conclusions:
+		(A->(!B->C))->(!(A->B)->(A->C))
+		(!(A->B)->(A->C))->(A->(!B->C))
+}
+
+`xor [ A, B ] {
+	assumptions:
+	conclusions:
+		!((A->B)->!(!A->!B))->((A->!B)->!(!A->B))
+}

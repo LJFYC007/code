@@ -1,0 +1,14 @@
+`HysSimple [ A, B, C ] {
+	assumptions:
+		A->B
+		B->C
+	conclusions:
+		A->C
+	proof:
+		kzp = B->C
+		P1 [ kzp, A ]
+		MP [ kzp, A->(B->C) ]
+		P2 [ A, B, C ]
+		MP [A->(B->C),(A->B)->(A->C)]
+		MP [ A->B, A->C ]
+}

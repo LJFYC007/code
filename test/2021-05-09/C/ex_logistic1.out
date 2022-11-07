@@ -1,0 +1,22 @@
+`Id [ B ] {
+	assumptions:													// you can add comment at line end arbitrarily.
+	conclusions:
+		B->B														// you can change the variable name without changing the order.
+	proof:
+		djq = B->B													// lowercase letters and multiple letters are allowed.
+		P1 [ B, B ]													// B->(B->B) => B->djq
+		P1 [ B, djq ]												// B->djq->B, right associative as default, but it's better to append the parentheses.
+		P2 [ B, djq, B ]											// (B->djq->B)->((B->djq)->(B->B))
+		MP [ B->djq->B, (B->djq)->(B->B) ]							// (B->djq)->(B->B)
+		MP [ B->djq, B->B ]											// B->B
+}
+
+`myFunc [ A, B ] {
+	assumptions:
+		A
+	conclusions:
+		B->A
+	proof:
+		P1 [ A, B ]
+		MP [ A, B->A ]
+}

@@ -1,0 +1,5 @@
+`Id [ A ] {
+	assumptions:
+	conclusions:
+		A->A
+}

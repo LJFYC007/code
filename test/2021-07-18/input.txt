@@ -1,0 +1,10 @@
+set cindent
+set autoindent
+set smartindent
+set tabstop=4
+set softtabstop=4
+set nu
+set mouse=a
+map<F9> <ESC>:w!<CR> :!g++ % -o %< -O2 -std=c++11 && time ./%< <CR>
+set autoread
+set nobackup

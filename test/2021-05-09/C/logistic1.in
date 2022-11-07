@@ -1,0 +1,7 @@
+`HysSimple [ A, B, C ] {
+	assumptions:
+		A->B
+		B->C
+	conclusions:
+		A->C
+}
